@@ -1,0 +1,273 @@
+{% extends "layout.html" %}
+
+{% block title %}Your workspaces{% endblock %}
+
+{% block content %}
+{% from "macros/fields.html" import render_text_field, render_textarea_field, render_submit2_field %}
+<div class="flex relative max-h-screen">
+    {% include "components/dashboard/sidebar.html" %}
+    <div class="flex flex-col w-full h-screen overflow-y-auto">
+        <div class="w-full h-full">
+            {% include "components/dashboard/header.html" %}
+            <div class="py-5 bg-(--color-primary-muted) border-b border-base-300">
+                <div class="flex flex-col px-6">
+                    <h1 class="text-3xl font-medium tracking-tight font-manrope">Create Workspace</h1>
+                    <h2 class="mt-2 text-gray-600">Set up a new workspace to organize your accounts and content.</h2>
+                    {% for workspace in current_user.workspaces %}
+                        {{ workspace.name }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="w-full h-auto 2xl:h-[calc(100vh-174px)] bg-(--color-primary-muted) p-5">
+                <div class="grid grid-cols-1 2xl:grid-cols-3 gap-2">
+                    <div class="col-span-1 2xl:col-span-2 h-auto 2xl:h-[calc(100vh-210px)] overflow-auto">
+                        {% if not user_can_create %}
+                            <div class="flex gap-x-4 mb-4 p-4 border border-red-300 bg-red-100 rounded-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 shrink-0 stroke-current text-red-800" fill="none" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <div>
+                                    <span class="block font-semibold mb-1 text-red-800">Workspace limit reached</span>
+                                    <p class="text-sm">You've reached the maximum number of workspaces allowed on your plan.</p>
+                                </div>
+                                <div class="flex justify-center items-center ml-auto">
+                                    <a class="btn btn-outline btn-error" href="">Upgrade Plan</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="flex flex-col p-4 border border-base-300 gap-6 min-w-72 rounded-lg overflow-auto">
+                            <div>
+                                <p class="text-lg font-bold">Workspace Details</p>
+                            </div>
+                            <form method="post" novalidate class="text-start w-full">
+                                {{ form.csrf_token() }}
+                                {{ render_text_field(form.name, placeholder="Must be between 3 to 50 characters.") }}
+                                <div class="flex">
+                                    <p class="mb-6 text-gray-600 text-sm">Choose a name that helps you identify this workspace.</p>
+                                    <div class="text-sm ml-auto" counton="name"></div>
+                                </div>
+                                {{ render_textarea_field(form.description, placeholder="e.g. This workspace is for our social media marketing campaigns.") }}
+                                <div class="flex">
+                                    <p class="mb-6 text-gray-600 text-sm">Add a short description to help your team understand its purpose.</p>
+                                    <div class="text-sm ml-auto" counton="description"></div>
+                                </div>
+                                <label class="block text-sm font-semibold mb-2" for="color">Workspace Color</label>
+                                <p class="mb-6 text-gray-600 text-sm">Choose a color to easily identify this workspace.</p>
+                                {% set colors = {
+                                    "violet": "bg-violet-500 border-violet-500 text-violet-500 checked:text-white",
+                                    "blue": "bg-blue-500 border-blue-500 text-blue-500 checked:text-white",
+                                    "green": "bg-green-500 border-green-500 text-green-500 checked:text-white",
+                                    "amber": "bg-amber-500 border-amber-500 text-amber-500 checked:text-white",
+                                    "pink": "bg-pink-500 border-pink-500 text-pink-500 checked:text-white",
+                                    "red": "bg-red-500 border-red-500 text-red-500 checked:text-white",
+                                    "teal": "bg-teal-500 border-teal-500 text-teal-500 checked:text-white",
+                                    "stone": "bg-stone-500 border-stone-500 text-stone-500 checked:text-white",
+                                    "slate": "bg-slate-500 border-slate-500 text-slate-500 checked:text-white",
+                                } %}
+                                <div class="grid grid-cols-4 md:flex gap-6 mb-6">
+                                    {% for subfield in form.color %}
+                                        <input 
+                                            type="radio" 
+                                            class="radio radio-lg {{ colors[subfield.data] }}"
+                                            id="choice_{{ subfield.data }}" 
+                                            name="color" 
+                                            value="{{ subfield.data }}"
+                                            {% if subfield.checked %}checked{% endif %}
+                                        >
+                                    {% endfor %}
+                                </div>
+                                <label class="block text-sm font-semibold mb-2" for="color">Workspace Icon</label>
+                                <p class="mb-6 text-gray-600 text-sm">Choose an icon to represent this workspace.</p>
+                                <div id="icons-container" class="grid grid-cols-4 md:flex gap-4 mb-6">
+                                    <div id="letter" class="icon-option text-gray-600 transition-colors hover:bg-base-200/50 border border-gray-300 p-3 rounded-md cursor-pointer">
+                                        <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="0.3" viewBox="0 0 15 15" height="1.3em" width="1.3em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M3.68946 2.75C3.89633 2.74979 4.08178 2.87732 4.15626 3.07031L7.36622 11.3896L7.39356 11.4873C7.43224 11.7167 7.30549 11.9491 7.08009 12.0361C6.8546 12.1231 6.60494 12.0358 6.4795 11.8398L6.4336 11.75L5.38282 9.02539H2.01075L0.966806 11.749L0.920908 11.8398C0.795759 12.0354 0.546617 12.1233 0.321299 12.0371C0.0635625 11.9382 -0.0655997 11.6484 0.0332127 11.3906L3.22364 3.07129L3.25587 3.00195C3.34371 2.84806 3.50847 2.75031 3.68946 2.75ZM10.8984 5.20703C11.792 5.20703 12.6044 5.60223 13.1533 6.22461V5.71973C13.1535 5.47158 13.3554 5.26994 13.6035 5.26953C13.852 5.26953 14.0536 5.47132 14.0537 5.71973V11.5293C14.0537 11.7778 13.8521 11.9795 13.6035 11.9795C13.3553 11.9791 13.1533 11.7776 13.1533 11.5293V11.0195C12.5733 11.6675 11.7213 12.0127 10.8984 12.0127C9.3579 12.0124 8.0088 10.6332 8.0088 8.60938C8.00895 6.68571 9.25803 5.20734 10.8984 5.20703ZM11.0859 6.05762C10.1083 6.05812 9.03524 6.96621 9.03517 8.60938C9.03517 10.1527 10.0084 11.1606 11.0859 11.1611C11.9702 11.1611 12.7714 10.4926 13.1533 9.79492V7.30566C12.7635 6.58343 11.9416 6.05762 11.0859 6.05762ZM2.33692 8.17578H5.0547L3.69142 4.64258L2.33692 8.17578Z" fill="currentColor"></path>
+                                        </svg>
+                                    </div>
+                                    <div id="business" class="icon-option text-gray-600 transition-colors hover:bg-base-200/50 border border-gray-300 p-3 rounded-md cursor-pointer">
+                                        <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1.3em" width="1.3em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 6h-3V4c0-1.103-.897-2-2-2H9c-1.103 0-2 .897-2 2v2H4c-1.103 0-2 .897-2 2v11c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2zm-5-2v2H9V4h6zM8 8h12v3H4V8h4zM4 19v-6h6v2h4v-2h6l.001 6H4z"></path>
+                                        </svg>
+                                    </div>
+                                    <div id="team" class="icon-option text-gray-600 transition-colors hover:bg-base-200/50 border border-gray-300 p-3 rounded-md cursor-pointer">
+                                        <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.3em" width="1.3em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M18 21a8 8 0 0 0-16 0"></path>
+                                            <circle cx="10" cy="8" r="5"></circle>
+                                            <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path>
+                                        </svg>
+                                    </div>
+                                    <div id="marketing" class="icon-option text-gray-600 transition-colors hover:bg-base-200/50 border border-gray-300 p-3 rounded-md cursor-pointer">
+                                        <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="4" viewBox="0 0 256 256" height="1.3em" width="1.3em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M228.54,86.66l-176.06-54A16,16,0,0,0,32,48V192a16,16,0,0,0,16,16,16,16,0,0,0,4.52-.65L136,181.73V192a16,16,0,0,0,16,16h32a16,16,0,0,0,16-16v-29.9l28.54-8.75A16.09,16.09,0,0,0,240,138V102A16.09,16.09,0,0,0,228.54,86.66ZM136,165,48,192V48l88,27Zm48,27H152V176.82L184,167Zm40-54-.11,0L152,160.08V79.92l71.89,22,.11,0v36Z"></path>
+                                        </svg>
+                                    </div>
+                                    <div id="analytics" class="icon-option text-gray-600 transition-colors hover:bg-base-200/50 border border-gray-300 p-3 rounded-md cursor-pointer">
+                                        <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.3em" width="1.3em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 16v5"></path>
+                                            <path d="M16 14v7"></path>
+                                            <path d="M20 10v11"></path>
+                                            <path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"></path>
+                                            <path d="M4 18v3"></path>
+                                            <path d="M8 14v7"></path>
+                                        </svg>
+                                    </div>
+                                    <div id="store" class="icon-option text-gray-600 transition-colors hover:bg-base-200/50 border border-gray-300 p-3 rounded-md cursor-pointer">
+                                        <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1.3em" width="1.3em" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="none" d="M0 0h24v24H0z"></path><path d="m21.9 8.89-1.05-4.37c-.22-.9-1-1.52-1.91-1.52H5.05c-.9 0-1.69.63-1.9 1.52L2.1 8.89c-.24 1.02-.02 2.06.62 2.88.08.11.19.19.28.29V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6.94c.09-.09.2-.18.28-.28.64-.82.87-1.87.62-2.89zm-2.99-3.9 1.05 4.37c.1.42.01.84-.25 1.17-.14.18-.44.47-.94.47-.61 0-1.14-.49-1.21-1.14L16.98 5l1.93-.01zM13 5h1.96l.54 4.52c.05.39-.07.78-.33 1.07-.22.26-.54.41-.95.41-.67 0-1.22-.59-1.22-1.31V5zM8.49 9.52 9.04 5H11v4.69c0 .72-.55 1.31-1.29 1.31-.34 0-.65-.15-.89-.41a1.42 1.42 0 0 1-.33-1.07zm-4.45-.16L5.05 5h1.97l-.58 4.86c-.08.65-.6 1.14-1.21 1.14-.49 0-.8-.29-.93-.47-.27-.32-.36-.75-.26-1.17zM5 19v-6.03c.08.01.15.03.23.03.87 0 1.66-.36 2.24-.95.6.6 1.4.95 2.31.95.87 0 1.65-.36 2.23-.93.59.57 1.39.93 2.29.93.84 0 1.64-.35 2.24-.95.58.59 1.37.95 2.24.95.08 0 .15-.02.23-.03V19H5z"></path>
+                                        </svg>
+                                    </div>
+                                    <div id="favourite" class="icon-option text-gray-600 transition-colors hover:bg-base-200/50 border border-gray-300 p-3 rounded-md cursor-pointer">
+                                        <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1.3em" width="1.3em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"></path>
+                                        </svg>
+                                    </div>
+                                    <div id="startup" class="icon-option text-gray-600 transition-colors hover:bg-base-200/50 border border-gray-300 p-3 rounded-md cursor-pointer">
+                                        <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.3em" width="1.3em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+                                            <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+                                            <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="hidden">
+                                    {% for subfield in form.icon %}
+                                        <input 
+                                            type="radio" 
+                                            class="radio"
+                                            id="choice_{{ subfield.data }}" 
+                                            name="icon" 
+                                            value="{{ subfield.data }}"
+                                            {% if subfield.checked %}checked{% endif %}
+                                        >
+                                    {% endfor %}
+                                </div>
+                                <div class="mt-4 md:mt-14">
+                                    {% if user_can_create %}
+                                        {{ render_submit2_field(form.submit) }}
+                                    {% else %}
+                                        <div class="btn btn-disabled w-full md:w-auto capitalize btn-primary">Create Workspace</div>
+                                    {% endif %}
+                                    <a class="btn ml-0 md:ml-2 mt-4 md:mt-0 w-full md:w-auto" href="{{ url_for('dashboard.workspace') }}">Cancel</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="flex flex-col h-full gap-y-2">
+                        <div class="flex flex-col col-span-1 2xl:col-span-2 p-4 border border-base-300 gap-6 rounded-lg">
+                            <div>
+                                <p class="text-lg font-bold">Workspace Limits</p>
+                                <p class="text-sm mt-4">Your plan determines the limits for each workspace.</p>
+                            </div>
+                            <div class="flex items-center gap-6">
+                                <div class="p-4 bg-sky-100 text-sky-600 rounded-lg h-min">
+                                    <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 3v17a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1H3"></path>
+                                        <path d="m16 19 2 2 4-4"></path>
+                                    </svg>
+                                </div>
+                                <div class="text-gray-600 font-semibold text-sm sm:text-md">
+                                    <p>Workspaces Created</p>
+                                    {% if current_workplaces >= current_user.plan.max_workplaces %}
+                                        <div class="text-xl font-bold text-red-600">{{ current_workplaces }} / {{ current_user.plan.max_workplaces }}</div>
+                                    {% else %}
+                                        <div class="text-xl font-bold text-black">{{ current_workplaces }} / {{ current_user.plan.max_workplaces }}</div>
+                                    {% endif %}
+                                    <p>{{ current_user.plan.max_workplaces - current_workplaces }} remaining</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-6">
+                                <div class="p-4 bg-green-100 text-green-600 rounded-lg h-min">
+                                    <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M18 21a8 8 0 0 0-16 0"></path>
+                                        <circle cx="10" cy="8" r="5"></circle>
+                                        <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path>
+                                    </svg>
+                                </div>
+                                <div class="text-gray-600 font-semibold text-sm sm:text-md">
+                                    <p>Connected Accounts</p>
+                                    <div class="text-xl font-bold text-black">{{ current_user.plan.max_accounts }}</div>
+                                    <p>per workspace</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-6">
+                                <div class="p-4 bg-violet-100 text-violet-600 rounded-lg h-min">
+                                    <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8 2v4"></path>
+                                        <path d="M16 2v4"></path>
+                                        <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                                        <path d="M3 10h18"></path>
+                                        <path d="M8 14h.01"></path>
+                                        <path d="M12 14h.01"></path>
+                                        <path d="M16 14h.01"></path>
+                                        <path d="M8 18h.01"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M16 18h.01"></path>
+                                    </svg>
+                                </div>
+                                <div class="text-gray-600 font-semibold text-sm sm:text-md">
+                                    <p>Posts Per Month</p>
+                                    <div class="text-xl font-bold text-black">0 / 500</div>
+                                    <p>500 posts remaining (pending)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col col-span-1 2xl:col-span-2 p-4 border border-base-300 gap-6 h-full rounded-lg">
+                            <div>
+                                <p class="text-lg font-bold">What's Next?</p>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="p-3 bg-green-100 text-green-600 rounded-lg h-min">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 48c110.532 0 200 89.451 200 200 0 110.532-89.451 200-200 200-110.532 0-200-89.451-200-200 0-110.532 89.451-200 200-200m140.204 130.267l-22.536-22.718c-4.667-4.705-12.265-4.736-16.97-.068L215.346 303.697l-59.792-60.277c-4.667-4.705-12.265-4.736-16.97-.069l-22.719 22.536c-4.705 4.667-4.736 12.265-.068 16.971l90.781 91.516c4.667 4.705 12.265 4.736 16.97.068l172.589-171.204c4.704-4.668 4.734-12.266.067-16.971z"></path>
+                                    </svg>
+                                </div>
+                                <div class="text-sm sm:text-md">
+                                    <p class="font-bold">Create your workspace</p>
+                                    <p class="text-gray-600">Set up the basic information</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="p-3 bg-sky-100 text-sky-600 rounded-lg h-min">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 4.99509C3 3.89323 3.89262 3 4.99509 3H19.0049C20.1068 3 21 3.89262 21 4.99509V19.0049C21 20.1068 20.1074 21 19.0049 21H4.99509C3.89323 21 3 20.1074 3 19.0049V4.99509ZM5 5V19H19V5H5ZM7.97216 18.1808C7.35347 17.9129 6.76719 17.5843 6.22083 17.2024C7.46773 15.2753 9.63602 14 12.1022 14C14.5015 14 16.6189 15.2071 17.8801 17.0472C17.3438 17.4436 16.7664 17.7877 16.1555 18.0718C15.2472 16.8166 13.77 16 12.1022 16C10.3865 16 8.87271 16.8641 7.97216 18.1808ZM12 13C10.067 13 8.5 11.433 8.5 9.5C8.5 7.567 10.067 6 12 6C13.933 6 15.5 7.567 15.5 9.5C15.5 11.433 13.933 13 12 13ZM12 11C12.8284 11 13.5 10.3284 13.5 9.5C13.5 8.67157 12.8284 8 12 8C11.1716 8 10.5 8.67157 10.5 9.5C10.5 10.3284 11.1716 11 12 11Z"></path>
+                                    </svg>
+                                </div>
+                                <div class="text-sm sm:text-md">
+                                    <p class="font-bold">Connect your accounts</p>
+                                    <p class="text-gray-600">Add social media accounts</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="p-3 bg-amber-100 text-amber-600 rounded-lg h-min">
+                                    <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M8 2v4"></path>
+                                        <path d="M16 2v4"></path>
+                                        <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                                        <path d="M3 10h18"></path>
+                                        <path d="M8 14h.01"></path>
+                                        <path d="M12 14h.01"></path>
+                                        <path d="M16 14h.01"></path>
+                                        <path d="M8 18h.01"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M16 18h.01"></path>
+                                    </svg>
+                                </div>
+                                <div class="text-sm sm:text-md">
+                                    <p class="font-bold">Start scheduling</p>
+                                    <p class="text-gray-600">Create and schedule your posts</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/sidebar.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/counter.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='javascript/workspace/create.js') }}"></script>
+{% endblock %}

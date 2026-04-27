@@ -1,0 +1,25 @@
+<div class="sticky top-0 flex justify-between items-center gap-x-4 px-6 py-4 bg-base-100 border-b border-base-300 z-10">
+    <div class="block lg:hidden">
+        <svg class="h-6 w-6 hover:text-primary cursor-pointer transition-colors" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-dashboard="button">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+    </div>
+    <details class="dropdown ml-auto">
+        <summary class="dropdown-summary list-none flex items-center gap-x-3 cursor-pointer">
+            <div class="avatar avatar-placeholder">
+                <div class="bg-neutral text-neutral-content w-8 rounded-full">
+                    <span class="text-xs">{{ current_user.name.split()[0][0] }}</span>
+                </div>
+            </div>
+            <p class="hidden sm:block text-md font-semibold mt-1">{{ current_user.name.split()[0][:20] }} {{ current_user.name.split()[1][:20] }}</p>
+        </summary>
+        <div class="dropdown-content right-0 mt-2 p-4 w-48 rounded-sm bg-base-100 shadow-lg ring-1 ring-base-300 z-10">
+            <a href="{{ url_for('auth.signout') }}" class="flex items-center gap-3 text-base rounded-md font-bold px-3 py-2 hover:bg-base-200 transition-colors">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M112,216a8,8,0,0,1-8,8H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h56a8,8,0,0,1,0,16H48V208h56A8,8,0,0,1,112,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L196.69,120H104a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,221.66,122.34Z"></path>
+                </svg>
+                Sign out
+            </a>
+        </div>
+    </details>
+</div>

@@ -1,0 +1,228 @@
+{% macro render_text_field(field, value=None, placeholder=None) %}
+    {% set label_class = "block text-sm font-semibold mb-2" %}
+    {{ field.label(class=label_class) }}
+
+    {% set field_class = "input input-bordered text-sm mb-2 w-full bg-white" %}
+    {% if field.errors %}
+        {% set field_class = field_class + " input-error" %}
+    {% endif %}
+
+    {% set attrs = {"class": field_class} %}
+
+    {% if value is not none %}
+        {% set _ = attrs.update({'value': value}) %}
+    {% endif %}
+
+    {% if placeholder %}
+        {% set _ = attrs.update({'placeholder': placeholder}) %}
+    {% endif %}
+
+    {{ field(**attrs) }}
+
+    {% for error in field.errors %}
+        <span class="block text-sm text-error mb-2">{{ error }}</span>
+    {% endfor %}
+{% endmacro %}
+
+{% macro render_textarea_field(field, value=None, placeholder=None) %}
+    {% set label_class = "block text-sm font-semibold mb-2" %}
+    {{ field.label(class=label_class) }}
+
+    {% set field_class = "textarea text-sm mb-2 w-full bg-white" %}
+    {% if field.errors %}
+        {% set field_class = field_class + " input-error" %}
+    {% endif %}
+
+    {% set attrs = {"class": field_class} %}
+
+    {% if value is not none %}
+        {% set _ = attrs.update({'value': value}) %}
+    {% endif %}
+
+    {% if placeholder %}
+        {% set _ = attrs.update({'placeholder': placeholder}) %}
+    {% endif %}
+
+    {{ field(**attrs) }}
+
+    {% for error in field.errors %}
+        <span class="block text-sm text-error mb-2">{{ error }}</span>
+    {% endfor %}
+{% endmacro %}
+
+{% macro render_username_field(field, validate=False, placeholder="Username") %}
+    {% set label_class = "block text-sm font-semibold mb-2" %}
+    {{ field.label(class=label_class) }}
+
+    {% set field_class = "input text-sm mb-2 w-full relative bg-white" %}
+    {% if validate %}
+        {% set field_class = field_class + " validator" %}
+    {% endif %}
+    {% if field.errors %}
+        {% set field_class = field_class + " input-error" %}
+    {% endif %}
+
+    <label class="{{ field_class }}">
+        <svg class="h-[1em] opacity-50 z-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke-width="2.5"
+                fill="none"
+                stroke="currentColor"
+            >
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </g>
+        </svg>
+
+        {% set attrs = {"placeholder": placeholder} %}
+
+        {% if validate %}
+            {% set _ = attrs.update({
+                "pattern": "[A-Za-z][A-Za-z0-9\-]*",
+                "title": "Only letters, numbers or dash"
+            }) %}
+        {% endif %}
+
+        {{ field(class="absolute left-0 pl-9 z-0 w-full rounded-lg", **attrs) }}
+    </label>
+
+    {% if validate %}
+        <p class="validator-hint hidden text-sm mt-0 mb-2">
+            Must be 3 to 30 characters
+            <br />containing only letters, numbers or dash
+        </p>
+    {% endif %}
+
+    {% for error in field.errors %}
+        <span class="block text-sm text-error mb-2">{{ error }}</span>
+    {% endfor %}
+{% endmacro %}
+
+{% macro render_email_field(field, validate=False, placeholder="Please enter your email") %}
+    {% set label_class = "block text-sm font-semibold mb-2" %}
+    {{ field.label(class=label_class) }}
+
+    {% set field_class = "input text-sm mb-2 w-full relative bg-white" %}
+    {% if validate %}
+        {% set field_class = field_class + " validator" %}
+    {% endif %}
+    {% if field.errors %}
+        {% set field_class = field_class + " input-error" %}
+    {% endif %}
+
+    <label class="{{ field_class }}">
+        <svg class="h-[1em] opacity-50 z-10 absolute left-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke-width="2.5"
+                fill="none"
+                stroke="currentColor"
+            >
+                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </g>
+        </svg>
+        {{ field(class="absolute left-0 pl-9 z-0 w-full rounded-lg", placeholder=placeholder) }}
+    </label>
+
+    {% if validate %}
+        <div class="validator-hint hidden text-sm mb-2">Enter valid email address</div>
+    {% endif %}
+
+    {% for error in field.errors %}
+        <span class="block text-sm text-error mt-0 mb-2">{{ error }}</span>
+    {% endfor %}
+{% endmacro %}
+
+{% macro render_password_field(field, validate=False, placeholder="Password") %}
+    {% set label_class = "block text-sm font-semibold mb-2" %}
+    {{ field.label(class=label_class) }}
+
+    {% set field_class = "input text-sm mb-2 w-full relative bg-white" %}
+    {% if validate %}
+        {% set field_class = field_class + " validator" %}
+    {% endif %}
+    {% if field.errors %}
+        {% set field_class = field_class + " input-error" %}
+    {% endif %}
+
+    <label class="{{ field_class }}">
+        <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5"
+               fill="none" stroke="currentColor">
+                <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/>
+                <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/>
+            </g>
+        </svg>
+
+        {% set attrs = {"placeholder": placeholder} %}
+
+        {% if validate %}
+            {% set _ = attrs.update({
+                "minlength": 8,
+                "pattern": "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}",
+                "title": "Must be more than 8 characters, including number, lowercase letter, uppercase letter"
+            }) %}
+        {% endif %}
+
+        {{ field(**attrs) }}
+    </label>
+
+    {% if validate %}
+        <p class="validator-hint hidden text-sm mt-0 mb-2">
+            Must be more than 8 characters, including
+            <br>At least one number
+            <br>At least one lowercase letter
+            <br>At least one uppercase letter
+        </p>
+    {% endif %}
+
+    {% for error in field.errors %}
+        <span class="block text-sm text-error mb-2">{{ error }}</span>
+    {% endfor %}
+{% endmacro %}
+
+{% macro render_file_field(field) %}
+    {% set label_class = "block text-sm font-semibold mb-2" %}
+    {{ field.label(class=label_class) }}
+
+    {% set field_class = "file-input file-input-bordered text-sm mb-2 w-full bg-white" %}
+    {% if field.errors %}
+        {% set field_class = field_class + " file-input-error" %}
+    {% endif %}
+
+    {{ field(class=field_class) }}
+
+    {% for error in field.errors %}
+        <span class="block text-sm text-error mb-2">{{ error }}</span>
+    {% endfor %}
+{% endmacro %}
+
+{% macro render_boolean_field(field) %}
+    {% set label_class = "block text-sm font-semibold" %}
+    {{ field.label(class=label_class) }}
+
+    {% set field_class = "checkbox checkbox-primary" %}
+    {% if field.errors %}
+        {% set field_class = field_class + " checkbox-error" %}
+    {% endif %}
+
+    {{ field(class=field_class) }}
+
+    {% for error in field.errors %}
+        <span class="block text-sm text-error mb-2">{{ error }}</span>
+    {% endfor %}
+{% endmacro %}
+
+{% macro render_submit_field(field) %}
+    {% set field_class = "btn w-full mt-4 capitalize btn-primary" %}
+    {{ field(class=field_class) }}
+{% endmacro %}
+
+{% macro render_submit2_field(field, full=True) %}
+    {% set field_class = "btn w-full md:w-auto capitalize btn-primary" %}
+    {{ field(class=field_class) }}
+{% endmacro %}

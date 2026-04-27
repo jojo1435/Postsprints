@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-theme="postlight">
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
+        <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet"/>
+        <link href="https://fonts.cdnfonts.com/css/manrope" rel="stylesheet">
+        <link href="https://fonts.cdnfonts.com/css/nunito-sans" rel="stylesheet">
+        {% block links %}{% endblock %}
+    </head>
+    <body class="font-nunito">
+        <div class="min-w-70 h-screen">
+            {% block content %}{% endblock %}
+        </div>
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,20 @@
+{
+    "name": "postsprints",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "dev": "npx @tailwindcss/cli -i ./source/static/app/input.css -o ./source/static/css/output.css --watch",
+        "build": "npx @tailwindcss/cli -i ./source/static/app/input.css -o ./source/static/css/output.css --minify"
+    },
+    "keywords": [],
+    "author": "jojo1435",
+    "license": "ISC",
+    "dependencies": {
+        "@tailwindcss/cli": "^4.1.18",
+        "cally": "^0.9.2",
+        "tailwindcss": "^4.1.18"
+    },
+    "devDependencies": {
+        "daisyui": "^5.5.14"
+    }
+}

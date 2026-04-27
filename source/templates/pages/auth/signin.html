@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block links %}
+<link href="{{ url_for('static', filename='css/animations.css') }}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+{% from "macros/fields.html" import render_email_field, render_password_field, render_boolean_field, render_submit_field %}
+<div class="flex px-4 md:px-6 py-4 h-screen">
+	<div class="h-full w-full">
+		<div>
+			<div class="flex justify-center md:justify-start">
+				<img src="{{ url_for('static', filename='/images/header_logo.png') }}" alt="postsprints logo">
+			</div>
+			<div class="flex flex-col justify-center items-center pr-0 xl:pr-6 h-[88vh]">
+				<div class="my-6 w-auto md:w-140">
+					<h1 class="text-5xl font-semibold mb-6 font-manrope">Sign In</h1>
+					<span class="text-md text-gray-500 font-medium">Enter your email and password to access your account.</span>
+				</div>
+				<form method="post" novalidate class="text-start w-full max-w-auto lg:max-w-140">
+					{{ signin_form.csrf_token() }}
+					{{ render_email_field(signin_form.email) }}
+					{{ render_password_field(signin_form.password) }}
+					<div class="flex justify-between items-center py-4">
+						<div class="flex flex-row-reverse items-center gap-x-4">
+							{{ render_boolean_field(signin_form.remember) }}
+						</div>
+						<a href="" class="text-sm font-semibold text-primary hover:text-primary-focus">Forgot password?</a>
+					</div>
+                	{{ render_submit_field(signin_form.submit) }}
+					<div class="mt-6 text-center text-md">
+						<p class="inline">Don't have an account?</p>
+						<a href="{{ url_for('auth.signup') }}" class="inline text-primary font-semibold">Register now</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="hidden xl:block bga1 bg-sky-500 h-full w-full rounded-lg"></div>
+</div>
+{% endblock %}
