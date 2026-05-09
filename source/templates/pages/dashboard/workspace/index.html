@@ -3,19 +3,21 @@
 {% block title %}Your workspaces{% endblock %}
 
 {% block content %}
-{% from "macros/fields.html" import render_text_field, render_submit_field %}
+{% from "macros/dashboard.html" import render_stat_card, render_icon %}
 <div class="flex relative max-h-screen">
     {% include "components/dashboard/sidebar.html" %}
     <div class="flex flex-col w-full h-screen overflow-y-auto">
         <div class="w-full h-full">
             {% include "components/dashboard/header.html" %}
-            <div class="flex items-center pr-5 py-5 bg-(--color-primary-muted) border-b border-base-300">
-                <div class="flex flex-col px-6">
-                    <h1 class="text-3xl font-medium tracking-tight font-manrope">Your Workspaces</h1>
-                    <h2 class="mt-2 text-gray-600">Manage and organize your social media workspaces.</h2>
-                </div>
+            <div class="flex items-center pr-5 bg-(--color-base-50) border-b border-base-300">
+                <section aria-labelledby="dashboard-title" class="py-5">
+                    <div class="flex flex-col px-6">
+                        <h1 id="dashboard-title" class="text-3xl font-medium tracking-tight font-manrope">Your Workspaces</h1>
+                        <p class="mt-2 text-neutral">Manage and organize your social media workspaces.</p>
+                    </div>
+                </section>
                 <div class="hidden sm:block ml-auto">
-                    <a class="btn btn-secondary shadow-none font-normal text-white" href="{{ url_for('dashboard.workspace_create') }}">
+                    <a class="btn btn-secondary shadow-none" href="{{ url_for('dashboard.workspace_create') }}">
                         <svg stroke="currentColor" fill="currentColor" stroke-width="1" viewBox="0 0 24 24" height="1.4em" width="1.4em" xmlns="http://www.w3.org/2000/svg">
                             <path d="M11.75 4.5a.75.75 0 0 1 .75.75V11h5.75a.75.75 0 0 1 0 1.5H12.5v5.75a.75.75 0 0 1-1.5 0V12.5H5.25a.75.75 0 0 1 0-1.5H11V5.25a.75.75 0 0 1 .75-.75Z"></path>
                         </svg>
@@ -23,38 +25,40 @@
                     </a>
                 </div>
             </div>
-            <div class="w-full h-auto 2xl:h-[calc(100vh-174px)] bg-(--color-primary-muted) p-5">
+            <main class="w-full h-auto xl:h-[calc(100dvh-174px)] p-5 bg-(--color-base-50)">
                 <!-- section 1 pending -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-2">
                     <div class="flex items-center p-4 border border-base-300 gap-6 min-w-72 rounded-lg transition-transform hover:scale-101">
-                        <div class="p-6 bg-sky-100 text-sky-600 rounded-lg h-min">
-                            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="2em" width="2em" xmlns="http://www.w3.org/2000/svg">
+                        <div class="p-6 bg-(--color-card-sky) text-(--color-card-sky-content) rounded-lg h-min">
+                            <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24"
+                                stroke-linecap="round" stroke-linejoin="round" height="2em" width="2em"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <path d="M12 3v17a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1H3"></path>
                                 <path d="m16 19 2 2 4-4"></path>
                             </svg>
                         </div>
-                        <div class="text-gray-600 font-semibold text-sm sm:text-md">
+                        <div class="font-semibold text-sm sm:text-md">
                             <p>Workspaces</p>
-                            <div class="text-2xl sm:text-3xl font-bold text-black py-2">{{ current_user.workspaces | count }}</div>
-                            <p>Active</p>
+                            <p class="text-2xl sm:text-3xl font-bold py-2">{{ current_user.workspaces | count }}</p>
+                            <p class="text-neutral">Active</p>
                         </div>
                     </div>
                     <div class="flex items-center p-4 border border-base-300 gap-6 min-w-72 rounded-lg transition-transform hover:scale-101">
-                        <div class="p-6 bg-green-100 text-green-600 rounded-lg h-min">
+                        <div class="p-6 bg-(--color-card-green) text-(--color-card-green-content) rounded-lg h-min">
                             <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="2em" width="2em" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18 21a8 8 0 0 0-16 0"></path>
                                 <circle cx="10" cy="8" r="5"></circle>
                                 <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path>
                             </svg>
                         </div>
-                        <div class="text-gray-600 font-semibold text-sm sm:text-md">
+                        <div class="font-semibold text-sm sm:text-md">
                             <p>Connected Accounts</p>
-                            <div class="text-2xl sm:text-3xl font-bold text-black py-2">0</div>
-                            <p>Across all workspaces</p>
+                            <p class="text-2xl sm:text-3xl font-bold py-2">0</p>
+                            <p class="text-neutral">Across all workspaces</p>
                         </div>
                     </div>
                     <div class="flex items-center p-4 border border-base-300 gap-6 min-w-72 rounded-lg transition-transform hover:scale-101">
-                        <div class="p-6 bg-violet-100 text-violet-600 rounded-lg h-min">
+                        <div class="p-6 bg-(--color-card-violet) text-(--color-card-violet-content) rounded-lg h-min">
                             <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="2em" width="2em" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M8 2v4"></path>
                                 <path d="M16 2v4"></path>
@@ -68,129 +72,124 @@
                                 <path d="M16 18h.01"></path>
                             </svg>
                         </div>
-                        <div class="text-gray-600 font-semibold text-sm sm:text-md">
+                        <div class="font-semibold text-sm sm:text-md">
                             <p>Scheduled Posts</p>
-                            <div class="text-2xl sm:text-3xl font-bold text-black py-2">0</div>
-                            <p>Next 7 days</p>
+                            <p class="text-2xl sm:text-3xl font-bold py-2">0</p>
+                            <p class="text-neutral">Next 7 days</p>
                         </div>
                     </div>
                     <div class="flex items-center p-4 border border-base-300 gap-6 min-w-72 rounded-lg transition-transform hover:scale-101">
-                        <div class="p-6 bg-amber-100 text-amber-600 rounded-lg h-min">
-                            <svg stroke="currentColor" fill="currentColor" stroke-width="0.6" viewBox="0 0 24 24" height="2em" width="2em" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2.5 2.75a.75.75 0 0 0-1.5 0v18.5c0 .414.336.75.75.75H20a.75.75 0 0 0 0-1.5H2.5V2.75Z"></path>
-                                <path d="M22.28 7.78a.75.75 0 0 0-1.06-1.06l-5.72 5.72-3.72-3.72a.75.75 0 0 0-1.06 0l-6 6a.75.75 0 1 0 1.06 1.06l5.47-5.47 3.72 3.72a.75.75 0 0 0 1.06 0l6.25-6.25Z"></path>
+                        <div class="p-6 bg-(--color-card-amber) text-(--color-card-amber-content) rounded-lg h-min">
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="2em" width="2em" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M184 448h48c4.4 0 8-3.6 8-8V72c0-4.4-3.6-8-8-8h-48c-4.4 0-8 3.6-8 8v368c0 4.4 3.6 8 8 8zM88 448h48c4.4 0 8-3.6 8-8V296c0-4.4-3.6-8-8-8H88c-4.4 0-8 3.6-8 8v144c0 4.4 3.6 8 8 8zM280.1 448h47.8c4.5 0 8.1-3.6 8.1-8.1V232.1c0-4.5-3.6-8.1-8.1-8.1h-47.8c-4.5 0-8.1 3.6-8.1 8.1v207.8c0 4.5 3.6 8.1 8.1 8.1zM368 136.1v303.8c0 4.5 3.6 8.1 8.1 8.1h47.8c4.5 0 8.1-3.6 8.1-8.1V136.1c0-4.5-3.6-8.1-8.1-8.1h-47.8c-4.5 0-8.1 3.6-8.1 8.1z"></path>
                             </svg>
                         </div>
-                        <div class="text-gray-600 font-semibold text-sm sm:text-md">
+                        <div class="font-semibold text-sm sm:text-md">
                             <p>Posts This Month</p>
-                            <div class="text-2xl sm:text-3xl font-bold text-black py-2">0 / {{ current_user.plan.max_posts_per_month }}</div>
-                            <p>0% used</p>
+                            <p class="text-2xl sm:text-3xl font-bold py-2">0 / {{ current_user.plan.max_posts_per_month | string }}</p>
+                            <p class="text-neutral">0% used</p>
                         </div>
                     </div>
                 </div>
                 <!-- section 2 pending -->
-                <div class="grid grid-cols-1 2xl:grid-cols-4 gap-2 mt-2 h-auto 2xl:h-142">
+                <div class="grid grid-cols-1 2xl:grid-cols-4 gap-2 mt-2">
                     {% if current_user.workspaces %}
                         <div class="flex flex-col col-span-1 2xl:col-span-3 p-4 border border-base-300 gap-6 min-w-72 rounded-lg">
                             <div>
                                 <p class="text-lg font-bold">Your Workspaces</p>
                             </div>
-                            <div class="flex flex-col h-full">
-                                <div class="flex flex-col gap-y-4 max-h-100 overflow-auto">
-                                    {% for workspace in current_user.workspaces %}
-                                        {% set colors = {
-                                            "violet": "bg-violet-50",
-                                            "blue": "bg-blue-50",
-                                            "green": "bg-green-50",
-                                            "amber": "bg-amber-50",
-                                            "pink": "bg-pink-50",
-                                            "red": "bg-red-50",
-                                            "teal": "bg-teal-50",
-                                            "stone": "bg-stone-50",
-                                            "slate": "bg-slate-50",
-                                        } %}
-                                        <div class="flex items-center p-4 border {% if workspace.id == current_workspace.id %}border-{{ workspace.color }}-500 bg-{{ workspace.color }}-50 {% else %}border-base-300{% endif %} gap-6 min-w-72 h-33.5 md:h-auto rounded-lg transition-shadow hover:shadow cursor-pointer">
-                                            <div class="avatar avatar-placeholder">
-                                                <div class="bg-{{ workspace.color }}-500 text-white w-14 sm:w-16 rounded-lg">
-                                                    {% if workspace.icon == "letter" %}
-                                                        <span class="text-xl sm:text-2xl font-bold">{{ workspace.name[0] | upper }}</span>
-                                                    {% elif workspace.icon == "business" %}
-                                                        <svg stroke="currentColor" fill="none" stroke-width="0.3" viewBox="0 0 15 15" height="1.6em" width="1.6em" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M3.68946 2.75C3.89633 2.74979 4.08178 2.87732 4.15626 3.07031L7.36622 11.3896L7.39356 11.4873C7.43224 11.7167 7.30549 11.9491 7.08009 12.0361C6.8546 12.1231 6.60494 12.0358 6.4795 11.8398L6.4336 11.75L5.38282 9.02539H2.01075L0.966806 11.749L0.920908 11.8398C0.795759 12.0354 0.546617 12.1233 0.321299 12.0371C0.0635625 11.9382 -0.0655997 11.6484 0.0332127 11.3906L3.22364 3.07129L3.25587 3.00195C3.34371 2.84806 3.50847 2.75031 3.68946 2.75ZM10.8984 5.20703C11.792 5.20703 12.6044 5.60223 13.1533 6.22461V5.71973C13.1535 5.47158 13.3554 5.26994 13.6035 5.26953C13.852 5.26953 14.0536 5.47132 14.0537 5.71973V11.5293C14.0537 11.7778 13.8521 11.9795 13.6035 11.9795C13.3553 11.9791 13.1533 11.7776 13.1533 11.5293V11.0195C12.5733 11.6675 11.7213 12.0127 10.8984 12.0127C9.3579 12.0124 8.0088 10.6332 8.0088 8.60938C8.00895 6.68571 9.25803 5.20734 10.8984 5.20703ZM11.0859 6.05762C10.1083 6.05812 9.03524 6.96621 9.03517 8.60938C9.03517 10.1527 10.0084 11.1606 11.0859 11.1611C11.9702 11.1611 12.7714 10.4926 13.1533 9.79492V7.30566C12.7635 6.58343 11.9416 6.05762 11.0859 6.05762ZM2.33692 8.17578H5.0547L3.69142 4.64258L2.33692 8.17578Z" fill="currentColor"></path>
-                                                        </svg>
-                                                    {% elif workspace.icon == "business" %}
-                                                        <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1.6em" width="1.6em" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M20 6h-3V4c0-1.103-.897-2-2-2H9c-1.103 0-2 .897-2 2v2H4c-1.103 0-2 .897-2 2v11c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2zm-5-2v2H9V4h6zM8 8h12v3H4V8h4zM4 19v-6h6v2h4v-2h6l.001 6H4z"></path>
-                                                        </svg>
-                                                    {% elif workspace.icon == "team" %}
-                                                        <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.6em" width="1.6em" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M18 21a8 8 0 0 0-16 0"></path>
-                                                            <circle cx="10" cy="8" r="5"></circle>
-                                                            <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path>
-                                                        </svg>
-                                                    {% elif workspace.icon == "marketing" %}
-                                                        <svg stroke="currentColor" fill="currentColor" stroke-width="4" viewBox="0 0 256 256" height="1.6em" width="1.6em" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M228.54,86.66l-176.06-54A16,16,0,0,0,32,48V192a16,16,0,0,0,16,16,16,16,0,0,0,4.52-.65L136,181.73V192a16,16,0,0,0,16,16h32a16,16,0,0,0,16-16v-29.9l28.54-8.75A16.09,16.09,0,0,0,240,138V102A16.09,16.09,0,0,0,228.54,86.66ZM136,165,48,192V48l88,27Zm48,27H152V176.82L184,167Zm40-54-.11,0L152,160.08V79.92l71.89,22,.11,0v36Z"></path>
-                                                        </svg>
-                                                    {% elif workspace.icon == "analytics" %}
-                                                        <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.6em" width="1.6em" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M12 16v5"></path>
-                                                            <path d="M16 14v7"></path>
-                                                            <path d="M20 10v11"></path>
-                                                            <path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"></path>
-                                                            <path d="M4 18v3"></path>
-                                                            <path d="M8 14v7"></path>
-                                                        </svg>
-                                                    {% elif workspace.icon == "store" %}
-                                                        <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1.6em" width="1.6em" xmlns="http://www.w3.org/2000/svg">
-                                                            <path fill="none" d="M0 0h24v24H0z"></path><path d="m21.9 8.89-1.05-4.37c-.22-.9-1-1.52-1.91-1.52H5.05c-.9 0-1.69.63-1.9 1.52L2.1 8.89c-.24 1.02-.02 2.06.62 2.88.08.11.19.19.28.29V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6.94c.09-.09.2-.18.28-.28.64-.82.87-1.87.62-2.89zm-2.99-3.9 1.05 4.37c.1.42.01.84-.25 1.17-.14.18-.44.47-.94.47-.61 0-1.14-.49-1.21-1.14L16.98 5l1.93-.01zM13 5h1.96l.54 4.52c.05.39-.07.78-.33 1.07-.22.26-.54.41-.95.41-.67 0-1.22-.59-1.22-1.31V5zM8.49 9.52 9.04 5H11v4.69c0 .72-.55 1.31-1.29 1.31-.34 0-.65-.15-.89-.41a1.42 1.42 0 0 1-.33-1.07zm-4.45-.16L5.05 5h1.97l-.58 4.86c-.08.65-.6 1.14-1.21 1.14-.49 0-.8-.29-.93-.47-.27-.32-.36-.75-.26-1.17zM5 19v-6.03c.08.01.15.03.23.03.87 0 1.66-.36 2.24-.95.6.6 1.4.95 2.31.95.87 0 1.65-.36 2.23-.93.59.57 1.39.93 2.29.93.84 0 1.64-.35 2.24-.95.58.59 1.37.95 2.24.95.08 0 .15-.02.23-.03V19H5z"></path>
-                                                        </svg>
-                                                    {% elif workspace.icon == "favourite" %}
-                                                        <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1.6em" width="1.6em" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"></path>
-                                                        </svg>
-                                                    {% elif workspace.icon == "startup" %}
-                                                        <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.6em" width="1.6em" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
-                                                            <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
-                                                            <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
-                                                        </svg>
-                                                    {% endif %}
-                                                </div>
+                            <div class="flex flex-col overflow-y-auto gap-y-4 max-h-115">
+                                {% for workspace in current_user.workspaces %}
+                                    <div class="flex items-center p-4 border {% if workspace.id == current_workspace.id %}border-neutral bg-neutral/70 {% else %}border-base-300{% endif %} gap-6 min-w-72 h-auto rounded-lg transition-shadow hover:shadow">
+                                        {{ render_icon(workspace) }}
+                                        <div class="font-semibold text-sm sm:text-md w-full {% if workspace.id == current_workspace.id %}text-white{% endif %}">
+                                            <div class="flex flex-col sm:flex-row gap-y-1">
+                                                <p class="text-md md:text-lg font-bold">{{ workspace.name[:22] }}</p>
+                                                <p class="badge badge-xs sm:badge-md {% if workspace.id == current_workspace.id %}badge-neutral{% endif %} ml-0 sm:ml-auto">{{ current_user.get_role(workspace.id) | capitalize }}</p>
                                             </div>
-                                            <div class="text-gray-600 font-semibold text-sm sm:text-md">
-                                                <p class="text-md md:text-lg font-bold">{{ workspace.name }} <span class="badge {% if workspace.id == current_workspace.id %}badge-neutral{% else %}text-base-600{% endif %} ml-4">{{ current_user.get_role(workspace.id) | capitalize }}</span></p>
-                                                <p class="text-sm md:text-sm text-gray-500 py-2 min-h-16 sm:min-h-auto">{{ workspace.description }}</p>
-                                                <div class="hidden sm:flex gap-2">
-                                                </div>
+                                            <p class="hidden sm:block text-sm md:text-sm py-2 min-h-16 sm:min-h-auto {% if workspace.id == current_workspace.id %}text-white{% else %}text-neutral{% endif %}">{{ workspace.description[:48] }}</p>
+                                        </div>
+                                        <div class="hidden xl:inline-grid stats ml-auto min-w-92.5 {% if workspace.id == current_workspace.id %}text-white{% endif %}">
+                                            <div class="stat place-items-center">
+                                                <div class="stat-value text-2xl font-bold px-12 min-w-34 max-w-34 text-center">0</div>
+                                                <div class="stat-desc text-md {% if workspace.id == current_workspace.id %}text-white{% endif %}">Accounts</div>
                                             </div>
-                                            <div class="hidden xl:inline-grid stats ml-auto">
-                                                <div class="stat place-items-center">
-                                                    <div class="stat-value text-2xl font-bold px-12 min-w-34 max-w-34 text-center">0</div>
-                                                    <div class="stat-desc text-md">Accounts</div>
-                                                </div>
-                                                <div class="stat place-items-center">
-                                                    <div class="stat-value text-2xl font-bold px-12 min-w-34 max-w-34 text-center">0</div>
-                                                    <div class="stat-desc text-md">Scheduled</div>
-                                                </div>
+                                            <div class="stat place-items-center">
+                                                <div class="stat-value text-2xl font-bold px-12 min-w-34 max-w-34 text-center">0</div>
+                                                <div class="stat-desc text-md {% if workspace.id == current_workspace.id %}text-white{% endif %}">Scheduled</div>
                                             </div>
-                                            <div class="flex items-center ml-auto xl:ml-0">
-                                                <button class="btn {% if workspace.id == current_workspace.id %}btn-neutral{% endif %} btn-sm xs:btn-md">
+                                        </div>
+                                        <div class="flex items-center ml-auto xl:ml-0">
+                                            <div class="dropdown dropdown-end">
+                                                <button tabindex="0" class="btn {% if workspace.id == current_workspace.id %}btn-neutral{% endif %} btn-sm xs:btn-md">
                                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1.3em" width="1.3em" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"></path>
                                                     </svg>
                                                 </button>
+                                                <ul tabindex="0" class="dropdown-content bg-(--color-base-50) rounded-box z-50 w-64 py-2 shadow-md border border-base-200 mt-1 rounded-md">
+                                                    {% if not current_workspace.id == workspace.id %}
+                                                        <li class="px-3 hover:bg-base-200/75 transition-colors">
+                                                            <form action="{{ url_for('dashboard.workspace_switch', workspace_id=workspace.id) }}" method="post">
+                                                                {{ form.csrf_token() }}
+                                                                <button 
+                                                                    type="submit" 
+                                                                    class="flex items-start gap-3 py-2 w-full text-left cursor-pointer">
+                                                                    <svg class="mt-0.5 shrink-0" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="1.1em" width="1.1em" xmlns="http://www.w3.org/2000/svg">
+                                                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                                                    </svg>
+                                                                    <div>
+                                                                        <p class="font-semibold text-sm leading-tight">Select this workspace</p>
+                                                                        <p class="text-xs text-base-content/50 font-normal">Switch to this workspace</p>
+                                                                    </div>
+                                                                </button>
+                                                            </form>
+                                                        </li>
+                                                    {% endif %}
+                                                    <li class="px-3 hover:bg-base-200/75 transition-colors">
+                                                        <a href="{{ url_for('dashboard.workspace_settings', workspace_id=workspace.id) }}" class="flex items-start gap-3 py-2">
+                                                            <svg class="mt-0.5 shrink-0" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="1.1em" width="1.1em" xmlns="http://www.w3.org/2000/svg">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 0 0-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 0 0-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 0 0-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 0 0-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 0 0 1.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/>
+                                                            </svg>
+                                                            <div>
+                                                                <p class="font-semibold text-sm leading-tight">Workspace settings</p>
+                                                                <p class="text-xs text-base-content/50 font-normal">Manage workspace details</p>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="px-3 hover:bg-base-200/75 transition-colors">
+                                                        <a href="" class="flex items-start gap-3 py-2">
+                                                            <svg class="mt-0.5 shrink-0" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="1.1em" width="1.1em" xmlns="http://www.w3.org/2000/svg">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path stroke-linecap="round" stroke-linejoin="round" d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                                                            </svg>
+                                                            <div>
+                                                                <p class="font-semibold text-sm leading-tight">Manage members</p>
+                                                                <p class="text-xs text-base-content/50 font-normal">Add or remove members</p>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li class="px-3 hover:bg-base-200/75 transition-colors">
+                                                        <a href="" class="flex items-start gap-3 py-2">
+                                                            <svg class="mt-0.5 shrink-0" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" height="1.1em" width="1.1em" xmlns="http://www.w3.org/2000/svg">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 1 1 0-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 1 0 0-2.684 3 3 0 0 0 0 2.684zm0 9.316a3 3 0 1 0 0 2.684 3 3 0 0 0 0-2.684z"/>
+                                                            </svg>
+                                                            <div>
+                                                                <p class="font-semibold text-sm leading-tight">View connected accounts</p>
+                                                                <p class="text-xs text-base-content/50 font-normal">See all connected accounts</p>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </div>
-                                    {% endfor %}    
-                                </div>
+                                    </div>
+                                {% endfor %}    
                             </div>
                         </div>
                     {% else %}
                         <div class="flex flex-col justify-center items-center col-span-1 2xl:col-span-3 p-4 border border-base-300 gap-4 min-w-72 rounded-lg">
-                            <img class="w-60" src="{{ url_for('static', filename='/images/0c12fbfa001d.png') }}" alt="Create a workspace">
+                            <img class="w-60" src="{{ url_for('static', filename='/images/workspace_missing.png') }}" alt="Create a workspace">
                             <h3 class="text-xl font-bold">You don't have any workspaces yet</h3>
-                            <p class="text-lg text-gray-600 text-center max-w-120">Create your first workspace to start organizing your social media accounts, posts and grow your online presence.</p>
+                            <p class="text-lg text-neutral text-center max-w-120">Create your first workspace to start organizing your social media accounts, posts and grow your online presence.</p>
                             <a class="btn btn-secondary shadow-none font-normal text-white" href="{{ url_for('dashboard.workspace_create') }}">
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="1" viewBox="0 0 24 24" height="1.4em" width="1.4em" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M11.75 4.5a.75.75 0 0 1 .75.75V11h5.75a.75.75 0 0 1 0 1.5H12.5v5.75a.75.75 0 0 1-1.5 0V12.5H5.25a.75.75 0 0 1 0-1.5H11V5.25a.75.75 0 0 1 .75-.75Z"></path>
@@ -208,7 +207,7 @@
                             <div class="flex flex-col gap-y-1">
                                 <!--  -->
                                 <div class="flex items-center py-2 gap-4">
-                                    <div class="p-3 bg-violet-100 text-violet-600 rounded-lg h-min">
+                                    <div class="p-3 bg-(--color-card-violet) text-(--color-card-violet-content) rounded-lg h-min">
                                         <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.3em" width="1.3em" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M8 2v4"></path>
                                             <path d="M16 2v4"></path>
@@ -224,15 +223,15 @@
                                     </div>
                                     <div class="text-sm sm:text-md max-w-28 md:max-w-40">
                                         <p class="font-bold">Post Scheduled</p>
-                                        <p class="text-gray-600 mt-1">Marketing Team</p>
+                                        <p class="text-neutral mt-1">Marketing Team</p>
                                     </div>
                                     <div class="ml-auto">
-                                        <p class="text-sm text-gray-600 font-semibold">2h ago</p>
+                                        <p class="text-sm text-neutral font-semibold">2h ago</p>
                                     </div>
                                 </div>
                                 <!--  -->
                                 <div class="flex items-center py-2 gap-4">
-                                    <div class="p-3 bg-violet-100 text-violet-600 rounded-lg h-min">
+                                    <div class="p-3 bg-(--color-card-violet) text-(--color-card-violet-content) rounded-lg h-min">
                                         <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.3em" width="1.3em" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M8 2v4"></path>
                                             <path d="M16 2v4"></path>
@@ -248,15 +247,15 @@
                                     </div>
                                     <div class="text-sm sm:text-md max-w-28 md:max-w-40">
                                         <p class="font-bold">Post Scheduled</p>
-                                        <p class="text-gray-600 mt-1">Marketing Team</p>
+                                        <p class="text-neutral mt-1">Marketing Team</p>
                                     </div>
                                     <div class="ml-auto">
-                                        <p class="text-sm text-gray-600 font-semibold">2h ago</p>
+                                        <p class="text-sm text-neutral font-semibold">2h ago</p>
                                     </div>
                                 </div>
                                 <!--  -->
                                 <div class="flex items-center py-2 gap-4">
-                                    <div class="p-3 bg-violet-100 text-violet-600 rounded-lg h-min">
+                                    <div class="p-3 bg-(--color-card-violet) text-(--color-card-violet-content) rounded-lg h-min">
                                         <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.3em" width="1.3em" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M8 2v4"></path>
                                             <path d="M16 2v4"></path>
@@ -272,15 +271,15 @@
                                     </div>
                                     <div class="text-sm sm:text-md max-w-28 md:max-w-40">
                                         <p class="font-bold">Post Scheduled</p>
-                                        <p class="text-gray-600 mt-1">Marketing Team</p>
+                                        <p class="text-neutral mt-1">Marketing Team</p>
                                     </div>
                                     <div class="ml-auto">
-                                        <p class="text-sm text-gray-600 font-semibold">2h ago</p>
+                                        <p class="text-sm text-neutral font-semibold">2h ago</p>
                                     </div>
                                 </div>
                                 <!--  -->
                                 <div class="flex items-center py-2 gap-4">
-                                    <div class="p-3 bg-violet-100 text-violet-600 rounded-lg h-min">
+                                    <div class="p-3 bg-(--color-card-violet) text-(--color-card-violet-content) rounded-lg h-min">
                                         <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.3em" width="1.3em" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M8 2v4"></path>
                                             <path d="M16 2v4"></path>
@@ -296,10 +295,10 @@
                                     </div>
                                     <div class="text-sm sm:text-md max-w-28 md:max-w-40">
                                         <p class="font-bold">New account connected</p>
-                                        <p class="text-gray-600 mt-1">Content Creators</p>
+                                        <p class="text-neutral mt-1">Content Creators</p>
                                     </div>
                                     <div class="ml-auto">
-                                        <p class="text-sm text-gray-600 font-semibold">1d ago</p>
+                                        <p class="text-sm text-neutral font-semibold">1d ago</p>
                                     </div>
                                 </div>
                                 <!--  -->
@@ -308,22 +307,22 @@
                         <div class="flex flex-col mt-2 p-4 border border-base-300 rounded-lg h-full">
                             <div class="flex justify-between items-center mb-2">
                                 <p class="text-lg font-bold">Usage This Month</p>
-                                <p class="text-sm text-gray-600 font-semibold">{{ date.strftime('%B') }}, {{ date.year }}</p>
+                                <p class="text-sm text-neutral font-semibold">{{ date.strftime('%B') }}, {{ date.year }}</p>
                             </div>
                             <div class="text-xs">
-                                <p class="text-gray-600 font-semibold mb-1">Posts</p>
+                                <p class="text-neutral font-semibold mb-1">Posts</p>
                                 <div class="flex justify-between">
                                     <p class="font-bold">{{ current_user.get_posts_used() }} / {{ current_user.plan.max_posts_per_month }}</p>
                                     {% set progress_value_rounded = (current_user.get_posts_used() * 100 / current_user.plan.max_posts_per_month) | round(0) | int %}
-                                    <p class="font-semibold text-gray-600">{{ progress_value_rounded }}%</p>
+                                    <p class="font-semibold text-neutral">{{ progress_value_rounded }}%</p>
                                 </div>
                                 <progress class="progress progress-primary my-2 rounded-md" value="0" max="{{ current_user.plan.max_posts_per_month }}"></progress>
                             </div>
                             <div class="text-xs">
-                                <p class="text-gray-600 font-semibold mb-1">Accounts</p>
+                                <p class="text-neutral font-semibold mb-1">Accounts</p>
                                 <div class="flex justify-between">
                                     <p class="font-bold">0 / 50</p>
-                                    <p class="font-semibold text-gray-600">0%</p>
+                                    <p class="font-semibold text-neutral">0%</p>
                                 </div>
                                 <progress class="progress progress-success my-2 rounded-md" value="0" max="50"></progress>
                             </div>
@@ -338,12 +337,12 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </main>
         </div>
     </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/javascript" src="{{ url_for('static', filename='javascript/sidebar.js') }}"></script>
+    <script type="text/javascript" src="{{ asset_url('javascript/sidebar.js') }}"></script>
 {% endblock %}

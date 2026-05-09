@@ -1,9 +1,10 @@
 {% extends "layout.html" %}
 
-{% block title %}Create your workspace{% endblock %}
+{% block title %}Workspace settings{% endblock %}
 
 {% block content %}
 {% from "macros/fields.html" import render_text_field, render_textarea_field, render_submit2_field %}
+{% from "macros/dashboard.html" import render_icon %}
 <div class="flex relative max-h-screen">
     {% include "components/dashboard/sidebar.html" %}
     <div class="flex flex-col w-full h-screen overflow-y-auto">
@@ -11,27 +12,45 @@
             {% include "components/dashboard/header.html" %}
             <section aria-labelledby="dashboard-title" class="static md:sticky top-16.25 py-5 bg-(--color-base-50) border-b border-base-300 z-15">
                 <div class="flex flex-col px-6">
-                    <h1 id="dashboard-title" class="text-3xl font-medium tracking-tight font-manrope">Create Workspace</h1>
-                    <p class="mt-2 text-neutral">Set up a new workspace to organize your accounts and content.</p>
+                    <h1 id="dashboard-title" class="text-3xl font-medium tracking-tight font-manrope">Workspace Settings</h1>
+                    <p class="mt-2 text-neutral">Update your workspace details and preferences.</p>
                 </div>
             </section>
+            <nav class="px-5 bg-(--color-base-50) border-b border-base-300">
+                <ul class="flex flex-col md:flex-row gap-x-4">
+                    <li class="border-b-0 md:border-b-2 border-primary text-primary cursor-pointer">
+                        <a class="flex gap-x-2 px-0 md:px-3 py-4 items-center" href="">
+                            <svg class="w-5 h-5" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 3v17a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1H3"></path>
+                                <path d="m16 19 2 2 4-4"></path>
+                            </svg>
+                            <p class="font-semibold text-sm md:text-md">Workspace info</p>
+                        </a>
+                    </li>
+                    <li class="transition-colors hover:bg-base-100 cursor-pointer">
+                        <a class="flex gap-x-2 px-0 md:px-3 py-4 items-center" href="">
+                            <svg class="w-5 h-5" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18 21a8 8 0 0 0-16 0"></path>
+                                <circle cx="10" cy="8" r="5"></circle>
+                                <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path>
+                            </svg>
+                            <p class="font-semibold text-sm md:text-md">Members</p>
+                        </a>
+                    </li>
+                    <li class="transition-colors hover:bg-base-100 cursor-pointer">
+                        <a class="flex gap-x-2 px-0 md:px-3 py-4 items-center" href="">
+                            <svg class="w-5 h-5" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                <path fill="none" d="M0 0h24v24H0z"></path>
+                                <path d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM8.9 6c0-1.71 1.39-3.1 3.1-3.1s3.1 1.39 3.1 3.1v2H8.9V6zM18 20H6V10h12v10z"></path>
+                            </svg>
+                            <p class="font-semibold text-sm md:text-md">Permissions</p>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
             <main class="w-full h-auto 2xl:h-[calc(100vh-198px)] p-5 bg-(--color-base-50)">
                 <div class="grid grid-cols-1 2xl:grid-cols-3 gap-2">
                     <div class="col-span-1 2xl:col-span-2 h-auto 2xl:h-[calc(100vh-238px)] overflow-auto">
-                        {% if not user_can_create %}
-                            <div class="flex gap-x-4 mb-4 p-4 border border-red-300 bg-red-100 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 shrink-0 stroke-current text-red-800" fill="none" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                <div>
-                                    <span class="block font-semibold mb-1 text-red-800">Workspace limit reached</span>
-                                    <p class="text-sm">You've reached the maximum number of workspaces allowed on your plan.</p>
-                                </div>
-                                <div class="flex justify-center items-center ml-auto">
-                                    <a class="btn btn-outline btn-error" href="">Upgrade Plan</a>
-                                </div>
-                            </div>
-                        {% endif %}
                         <div class="flex flex-col p-4 border border-base-300 gap-6 min-w-72 rounded-lg overflow-auto">
                             <div>
                                 <p class="text-lg font-bold">Workspace Details</p>
@@ -73,7 +92,7 @@
                                         >
                                     {% endfor %}
                                 </div>
-                                <label class="block text-sm font-semibold mb-2" for="color">Workspace Icon</label>
+                                <label class="block text-sm font-semibold mb-2" for="icon">Workspace Icon</label>
                                 <p class="mb-6 text-neutral text-sm">Choose an icon to represent this workspace.</p>
                                 <div id="icons-container" class="grid grid-cols-4 md:flex gap-4 mb-6">
                                     <div id="letter" class="icon-option text-base-300 transition-colors hover:bg-base-200/50 border border-base-300 p-3 rounded-md cursor-pointer">
@@ -114,38 +133,31 @@
                                     {% endfor %}
                                 </div>
                                 <div class="mt-4 md:mt-7">
-                                    {% if user_can_create %}
-                                        {{ render_submit2_field(form.submit) }}
-                                    {% else %}
-                                        <div class="btn btn-disabled w-full md:w-auto capitalize btn-primary">Create Workspace</div>
-                                    {% endif %}
+                                    {{ render_submit2_field(form.submit) }}
                                     <a class="btn ml-0 md:ml-2 mt-4 md:mt-0 w-full md:w-auto" href="{{ url_for('dashboard.workspace') }}">Cancel</a>
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div class="flex flex-col h-full gap-y-2">
+                        <div class="flex flex-col col-span-1 p-4 border border-base-300 gap-6 rounded-lg">
+                            <div>
+                                <p class="text-lg font-bold">Current Workspace</p>
+                                <p class="text-sm mt-2 text-neutral">You are editing the details below.</p>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="bg-(--color-primary-muted) text-primary rounded-lg h-min">
+                                    {{ render_icon(workspace) }}
+                                </div>
+                                <div>
+                                    <p class="font-bold">{{ current_workspace.name[:20] }}</p>
+                                    <p class="text-sm text-neutral">{{ current_workspace.description[:85] or "No description" }}</p>
+                                </div>
+                            </div>
+                        </div>
                         <div class="flex flex-col col-span-1 2xl:col-span-2 p-4 border border-base-300 gap-6 rounded-lg">
                             <div>
-                                <p class="text-lg font-bold">Workspace Limits</p>
-                                <p class="text-sm mt-4">Your plan determines the limits for each workspace.</p>
-                            </div>
-                            <div class="flex items-center gap-6">
-                                <div class="p-4 bg-(--color-card-sky) text-(--color-card-sky-content) rounded-lg h-min">
-                                    <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.5em" width="1.5em" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12 3v17a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1H3"></path>
-                                        <path d="m16 19 2 2 4-4"></path>
-                                    </svg>
-                                </div>
-                                <div class="font-semibold text-sm sm:text-md">
-                                    <p class="text-neutral">Workspaces Created</p>
-                                    {% if current_workplaces >= current_user.plan.max_workplaces %}
-                                        <div class="text-xl font-bold text-red-600">{{ current_workplaces }} / {{ current_user.plan.max_workplaces }}</div>
-                                    {% else %}
-                                        <div class="text-xl font-bold">{{ current_workplaces }} / {{ current_user.plan.max_workplaces }}</div>
-                                    {% endif %}
-                                    <p class="text-neutral">{{ current_user.plan.max_workplaces - current_workplaces }} remaining</p>
-                                </div>
+                                <p class="text-lg font-bold">Workspace Overview</p>
                             </div>
                             <div class="flex items-center gap-6">
                                 <div class="p-4 bg-(--color-card-green) text-(--color-card-green-content) rounded-lg h-min">
@@ -183,55 +195,88 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-col col-span-1 2xl:col-span-2 p-4 border border-base-300 gap-6 h-full rounded-lg">
+                        <div class="flex flex-col col-span-1 2xl:col-span-2 mb-4 p-4 bg-error/10 border border-error gap-4 rounded-lg">
                             <div>
-                                <p class="text-lg font-bold">What's Next?</p>
+                                <p class="text-lg font-bold text-error">Danger Zone</p>
                             </div>
-                            <div class="flex items-center gap-4">
-                                <div class="p-3 bg-(--color-card-green) text-(--color-card-green-content) rounded-lg h-min">
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M256 8C119.033 8 8 119.033 8 256s111.033 248 248 248 248-111.033 248-248S392.967 8 256 8zm0 48c110.532 0 200 89.451 200 200 0 110.532-89.451 200-200 200-110.532 0-200-89.451-200-200 0-110.532 89.451-200 200-200m140.204 130.267l-22.536-22.718c-4.667-4.705-12.265-4.736-16.97-.068L215.346 303.697l-59.792-60.277c-4.667-4.705-12.265-4.736-16.97-.069l-22.719 22.536c-4.705 4.667-4.736 12.265-.068 16.971l90.781 91.516c4.667 4.705 12.265 4.736 16.97.068l172.589-171.204c4.704-4.668 4.734-12.266.067-16.971z"></path>
+                            <div>
+                                <p class="font-bold text-red-500">Delete Workspace</p>
+                                <p class="text-sm text-error mt-1 mb-2">Permanently delete this workspace and all its data. This action cannot be undone.</p>
+                                <button type="button" class="btn btn-error text-white" onclick="delete_workspace_modal.showModal()">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M268 416h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12zM432 80h-82.41l-34-56.7A48 48 0 0 0 274.41 0H173.59a48 48 0 0 0-41.16 23.3L98.41 80H16A16 16 0 0 0 0 96v16a16 16 0 0 0 16 16h16v336a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128h16a16 16 0 0 0 16-16V96a16 16 0 0 0-16-16zM171.84 50.91A6 6 0 0 1 177 48h94a6 6 0 0 1 5.15 2.91L293.61 80H154.39zM368 464H80V128h288zm-212-48h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12z"></path>
                                     </svg>
-                                </div>
-                                <div class="text-sm sm:text-md">
-                                    <p class="font-bold">Create your workspace</p>
-                                    <p class="text-neutral">Set up the basic information</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <div class="p-3 bg-(--color-card-sky) text-(--color-card-sky-content) rounded-lg h-min">
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M3 4.99509C3 3.89323 3.89262 3 4.99509 3H19.0049C20.1068 3 21 3.89262 21 4.99509V19.0049C21 20.1068 20.1074 21 19.0049 21H4.99509C3.89323 21 3 20.1074 3 19.0049V4.99509ZM5 5V19H19V5H5ZM7.97216 18.1808C7.35347 17.9129 6.76719 17.5843 6.22083 17.2024C7.46773 15.2753 9.63602 14 12.1022 14C14.5015 14 16.6189 15.2071 17.8801 17.0472C17.3438 17.4436 16.7664 17.7877 16.1555 18.0718C15.2472 16.8166 13.77 16 12.1022 16C10.3865 16 8.87271 16.8641 7.97216 18.1808ZM12 13C10.067 13 8.5 11.433 8.5 9.5C8.5 7.567 10.067 6 12 6C13.933 6 15.5 7.567 15.5 9.5C15.5 11.433 13.933 13 12 13ZM12 11C12.8284 11 13.5 10.3284 13.5 9.5C13.5 8.67157 12.8284 8 12 8C11.1716 8 10.5 8.67157 10.5 9.5C10.5 10.3284 11.1716 11 12 11Z"></path>
-                                    </svg>
-                                </div>
-                                <div class="text-sm sm:text-md">
-                                    <p class="font-bold">Connect your accounts</p>
-                                    <p class="text-neutral">Add social media accounts</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <div class="p-3 bg-(--color-card-amber) text-(--color-card-amber-content) rounded-lg h-min">
-                                    <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1.2em" width="1.2em" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M8 2v4"></path>
-                                        <path d="M16 2v4"></path>
-                                        <rect width="18" height="18" x="3" y="4" rx="2"></rect>
-                                        <path d="M3 10h18"></path>
-                                        <path d="M8 14h.01"></path>
-                                        <path d="M12 14h.01"></path>
-                                        <path d="M16 14h.01"></path>
-                                        <path d="M8 18h.01"></path>
-                                        <path d="M12 18h.01"></path>
-                                        <path d="M16 18h.01"></path>
-                                    </svg>
-                                </div>
-                                <div class="text-sm sm:text-md">
-                                    <p class="font-bold">Start scheduling</p>
-                                    <p class="text-neutral">Create and schedule your posts</p>
-                                </div>
+                                    Delete Workspace
+                                </button>
+                                <dialog id="delete_workspace_modal" class="modal">
+                                    <div class="modal-box max-w-md border border-base-300 rounded-md">
+                                        <div class="flex items-center gap-3 mb-4">
+                                            <div class="p-2 bg-error/10 rounded-lg">
+                                                <svg class="text-error w-5 h-5" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M268 416h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12zM432 80h-82.41l-34-56.7A48 48 0 0 0 274.41 0H173.59a48 48 0 0 0-41.16 23.3L98.41 80H16A16 16 0 0 0 0 96v16a16 16 0 0 0 16 16h16v336a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128h16a16 16 0 0 0 16-16V96a16 16 0 0 0-16-16zM171.84 50.91A6 6 0 0 1 177 48h94a6 6 0 0 1 5.15 2.91L293.61 80H154.39zM368 464H80V128h288zm-212-48h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12z"></path>
+                                                </svg>
+                                            </div>
+                                            <h3 class="font-bold text-lg">Delete Workspace</h3>
+                                        </div>
+                                        <p class="text-sm text-neutral mb-4">
+                                            This will permanently delete <strong class="text-base-content">{{ current_workspace.name }}</strong> and all its data including posts, calendar entries, and media. This action cannot be undone.
+                                        </p>
+                                        <div class="bg-error/10 border border-error rounded-md p-3 mb-5">
+                                            <ul class="text-sm text-error flex flex-col gap-1">
+                                                <li class="flex items-center gap-2">
+                                                    <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                                                    All posts and scheduled content
+                                                </li>
+                                                <li class="flex items-center gap-2">
+                                                    <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                                                    Calendar entries and media storage
+                                                </li>
+                                                <li class="flex items-center gap-2">
+                                                    <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                                                    Connected accounts and settings
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <form
+                                            method="post"
+                                            action="{{ url_for('dashboard.workspace_delete', workspace_id=current_workspace.id) }}"
+                                            id="delete-workspace-form">
+                                            {{ delete_form.csrf_token() }}
+                                            <label class="block text-sm font-semibold mb-1" for="workspace_name">
+                                                Type <span class="font-bold text-base-content">{{ current_workspace.name }}</span> to confirm
+                                            </label>
+                                            <input
+                                                type="text"
+                                                id="workspace_name"
+                                                name="workspace_name"
+                                                autocomplete="off"
+                                                class="input input-bordered w-full mb-4"
+                                                placeholder="{{ current_workspace.name }}"
+                                                data-workspace-name="{{ current_workspace.name }}"
+                                            >
+                                            <div class="modal-action">
+                                                <form method="dialog">
+                                                    <button type="button" class="btn" onclick="delete_workspace_modal.close()">Close</button>
+                                                </form>
+                                                <button
+                                                    type="submit"
+                                                    form="delete-workspace-form"
+                                                    id="delete-confirm-btn"
+                                                    class="btn btn-error"
+                                                    disabled>
+                                                    <svg class="w-4 h-4" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M268 416h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12zM432 80h-82.41l-34-56.7A48 48 0 0 0 274.41 0H173.59a48 48 0 0 0-41.16 23.3L98.41 80H16A16 16 0 0 0 0 96v16a16 16 0 0 0 16 16h16v336a48 48 0 0 0 48 48h288a48 48 0 0 0 48-48V128h16a16 16 0 0 0 16-16V96a16 16 0 0 0-16-16zM171.84 50.91A6 6 0 0 1 177 48h94a6 6 0 0 1 5.15 2.91L293.61 80H154.39zM368 464H80V128h288zm-212-48h24a12 12 0 0 0 12-12V188a12 12 0 0 0-12-12h-24a12 12 0 0 0-12 12v216a12 12 0 0 0 12 12z"></path>
+                                                    </svg>
+                                                    Delete This Workspace
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </dialog>
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
             </main>
         </div>
     </div>
@@ -242,4 +287,5 @@
     <script type="text/javascript" src="{{ asset_url('javascript/sidebar.js') }}"></script>
     <script type="text/javascript" src="{{ asset_url('javascript/counter.js') }}"></script>
     <script type="text/javascript" src="{{ asset_url('javascript/workspace/create.js') }}"></script>
+    <script type="text/javascript" src="{{ asset_url('javascript/workspace/delete.js') }}"></script>
 {% endblock %}

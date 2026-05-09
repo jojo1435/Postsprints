@@ -22,11 +22,19 @@ class WorkspaceMember(Base):
     added_at = Column(DateTime, nullable=False, default=datetime.now(timezone.utc))
 
     # Relations
-    workspace = relationship("Workspace", backref="memberships")
+    workspace = relationship("Workspace", back_populates="memberships")
 
     def save(self):
         if not self.id:
             db.session.add(self)
+        db.session.commit()
+
+    def flush(self):
+        db.session.add(self)
+        db.session.flush()
+
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()
 
     def __init__(self, user_id:int, workspace_id:int, role:str):

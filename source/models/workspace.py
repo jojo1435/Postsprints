@@ -23,12 +23,29 @@ class Workspace(Base):
     created_at = Column(DateTime, nullable=False, default=datetime.now(timezone.utc))
     
     # Relations
-    accounts = relationship("Account", backref="workspace")
+    memberships = relationship("WorkspaceMember", back_populates="workspace", cascade="all, delete-orphan")
+    accounts = relationship("Account", back_populates="workspace", cascade="all, delete-orphan")
 
+    # Database
     def save(self):
         if not self.id:
             db.session.add(self)
-        db.session.commit()  
+        db.session.commit()
+
+    def flush(self):
+        db.session.add(self)
+        db.session.flush()
+
+    def update(self, **kwargs):
+        allowed_fields = {"name", "description", "color", "icon"}
+        for key, value in kwargs.items():
+            if key in allowed_fields and value is not None:
+                setattr(self, key, value)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
     @classmethod
     def get_by_user_id(cls, user_id):

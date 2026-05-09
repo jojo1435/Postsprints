@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 
 from source.utils.db import db
 
@@ -17,10 +18,22 @@ class Account(db.Model):
     # Date
     added_at = Column(DateTime, nullable=False, default=datetime.now(timezone.utc))
 
+    # Relations
+    workspace = relationship("Workspace", back_populates="accounts")
+
+    # Database
     def save(self):
         if not self.id:
             db.session.add(self)
-        db.session.commit()  
+        db.session.commit()
+
+    def flush(self):
+        db.session.add(self)
+        db.session.flush()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
 
     @classmethod
     def get_by_id(cls, id):

@@ -1,0 +1,77 @@
+{% with flashes = get_flashed_messages(with_categories=true)  %}
+    {% if flashes %}
+        <output aria-live="polite" aria-atomic="false" class="absolute top-4 flex flex-col gap-x-2 w-full pointer-events-none z-50">
+        {% for category, content in flashes %}
+            {% set message = content.split("||") %}
+            {% if category == "success" %}
+            <div role="alert" class="alert bg-green-50 border border-green-500 mx-auto w-150 animate-delay-[3500ms] animate-fade-out-up animate-once rounded-md">
+                <svg class="text-green-500 stroke-current shrink-0 w-12 h-12" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="none" d="M0 0h24v24H0z"></path>
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>
+                </svg>
+                <div>
+                    <p class="text-green-500 block text-lg font-bold">{{ message[0] }}</p>
+                    <p class="text-black">{{ message[1] }}</p>
+                    <p class="block text-sm text-neutral"></p>
+                </div>
+            </div>
+            {% elif category == "info" %}
+            <div role="alert" class="alert bg-blue-50 border border-blue-500 mx-auto w-150 animate-delay-[3500ms] animate-fade-out-up animate-once rounded-md">
+                <svg class="text-blue-500 stroke-current shrink-0 w-12 h-12" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="none" d="M0 0h24v24H0z"></path><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"></path>
+                </svg>
+                <div>
+                    <p class="text-blue-500 block text-lg font-bold">{{ message[0] }}</p>
+                    <p class="text-black">{{ message[1] }}</p>
+                    <p class="block text-sm text-neutral"></p>
+                </div>
+            </div>
+            {% elif category == "warning" %}
+            <div role="alert" class="alert bg-amber-50 border border-amber-500 mx-auto w-150 animate-delay-[3500ms] animate-fade-out-up animate-once rounded-md">
+                <svg class="text-amber-500 stroke-current shrink-0 w-12 h-12" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="none" d="M0 0h24v24H0z"></path><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path>
+                </svg>
+                <div>
+                    <p class="text-amber-500 block text-lg font-bold">{{ message[0] }}</p>
+                    <p class="text-black">{{ message[1] }}</p>
+                    <p class="block text-sm text-neutral"></p>
+                </div>
+            </div>
+            {% elif category == "error" %}
+            <div role="alert" class="alert bg-red-50 border border-red-500 mx-auto w-150 animate-delay-[3500ms] animate-fade-out-up animate-once rounded-md">
+                <svg class="text-red-500 stroke-current shrink-0 w-12 h-12" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M256 48C140.559 48 48 140.559 48 256c0 115.436 92.559 208 208 208 115.435 0 208-92.564 208-208 0-115.441-92.564-208-208-208zm104.002 282.881l-29.12 29.117L256 285.117l-74.881 74.881-29.121-29.117L226.881 256l-74.883-74.881 29.121-29.116L256 226.881l74.881-74.878 29.12 29.116L285.119 256l74.883 74.881z"></path>
+                </svg>
+                <div>
+                    <p class="text-red-500 block text-lg font-bold">{{ message[0] }}</p>
+                    <p class="text-black">{{ message[1] }}</p>
+                    <p class="block text-sm text-neutral"></p>
+                </div>
+            </div>
+            {% elif category == "upgrade" %}
+            <div role="alert" class="alert bg-violet-50 border border-violet-500 mx-auto w-150 animate-delay-[3500ms] animate-fade-out-up animate-once rounded-md">
+                <svg class="text-violet-500 stroke-current shrink-0 w-12 h-12" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M256 48C141.125 48 48 141.125 48 256s93.125 208 208 208 208-93.125 208-208S370.875 48 256 48zm107 229h-86v86h-42v-86h-86v-42h86v-86h42v86h86v42z"></path>
+                </svg>
+                <div>
+                    <p class="text-violet-500 block text-lg font-bold">{{ message[0] }}</p>
+                    <p class="text-black">{{ message[1] }}</p>
+                    <p class="block text-sm text-neutral"></p>
+                </div>
+            </div>
+            {% elif category == "security" %}
+            <div role="alert" class="alert bg-orange-50 border border-orange-500 mx-auto w-150 animate-delay-[3500ms] animate-fade-out-up animate-once rounded-md">
+                <svg class="text-orange-500 stroke-current shrink-0 w-12 h-12" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M256 464c114.875 0 208-93.125 208-208S370.875 48 256 48 48 141.125 48 256s93.125 208 208 208zm-32-112V160l96 96-96 96z"></path>
+                </svg>
+                <div>
+                    <p class="text-orange-500 block text-lg font-bold">{{ message[0] }}</p>
+                    <p class="text-black">{{ message[1] }}</p>
+                    <p class="block text-sm text-neutral"></p>
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+        </output>
+    {% endif %}
+{% endwith %}

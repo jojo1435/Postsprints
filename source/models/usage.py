@@ -17,9 +17,18 @@ class Usage(Base):
     posts_count = Column(Integer, default=0)
     accounts_count = Column(Integer, default=0)
 
+    # Database
     def save(self):
         if not self.id:
             db.session.add(self)
+        db.session.commit()
+
+    def flush(self):
+        db.session.add(self)
+        db.session.flush()
+
+    def delete(self):
+        db.session.delete(self)
         db.session.commit()
 
     @classmethod

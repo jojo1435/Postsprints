@@ -2,7 +2,7 @@
     {% set label_class = "block text-sm font-semibold mb-2" %}
     {{ field.label(class=label_class) }}
 
-    {% set field_class = "input input-bordered text-sm mb-2 w-full bg-white" %}
+    {% set field_class = "input input-bordered text-sm mb-2 w-full bg-(--color-base-50)" %}
     {% if field.errors %}
         {% set field_class = field_class + " input-error" %}
     {% endif %}
@@ -28,7 +28,7 @@
     {% set label_class = "block text-sm font-semibold mb-2" %}
     {{ field.label(class=label_class) }}
 
-    {% set field_class = "textarea text-sm mb-2 w-full bg-white" %}
+    {% set field_class = "textarea text-sm mb-2 w-full bg-(--color-base-50)" %}
     {% if field.errors %}
         {% set field_class = field_class + " input-error" %}
     {% endif %}
@@ -54,7 +54,7 @@
     {% set label_class = "block text-sm font-semibold mb-2" %}
     {{ field.label(class=label_class) }}
 
-    {% set field_class = "input text-sm mb-2 w-full relative bg-white" %}
+    {% set field_class = "input text-sm mb-2 w-full relative bg-(--color-base-50)" %}
     {% if validate %}
         {% set field_class = field_class + " validator" %}
     {% endif %}
@@ -104,7 +104,7 @@
     {% set label_class = "block text-sm font-semibold mb-2" %}
     {{ field.label(class=label_class) }}
 
-    {% set field_class = "input text-sm mb-2 w-full relative bg-white" %}
+    {% set field_class = "input text-sm mb-2 w-full relative bg-(--color-base-50)" %}
     {% if validate %}
         {% set field_class = field_class + " validator" %}
     {% endif %}
@@ -141,7 +141,7 @@
     {% set label_class = "block text-sm font-semibold mb-2" %}
     {{ field.label(class=label_class) }}
 
-    {% set field_class = "input text-sm mb-2 w-full relative bg-white" %}
+    {% set field_class = "input text-sm mb-2 w-full relative bg-(--color-base-50)" %}
     {% if validate %}
         {% set field_class = field_class + " validator" %}
     {% endif %}
@@ -189,7 +189,7 @@
     {% set label_class = "block text-sm font-semibold mb-2" %}
     {{ field.label(class=label_class) }}
 
-    {% set field_class = "file-input file-input-bordered text-sm mb-2 w-full bg-white" %}
+    {% set field_class = "file-input file-input-bordered text-sm mb-2 w-full bg-(--color-base-50)" %}
     {% if field.errors %}
         {% set field_class = field_class + " file-input-error" %}
     {% endif %}
@@ -205,7 +205,7 @@
     {% set label_class = "block text-sm font-semibold" %}
     {{ field.label(class=label_class) }}
 
-    {% set field_class = "checkbox checkbox-primary" %}
+    {% set field_class = "checkbox checkbox-primary checkbox-sm" %}
     {% if field.errors %}
         {% set field_class = field_class + " checkbox-error" %}
     {% endif %}

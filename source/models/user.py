@@ -49,14 +49,9 @@ class User(Base, UserMixin):
             db.session.add(self)
         db.session.commit()
 
-    def update(self, name=None, email=None, picture=None):
-        if name is not None:
-            self.name = name
-        if email is not None:
-            self.email = email
-        if picture is not None:
-            self.picture = picture
-        db.session.commit()
+    def flush(self):
+        db.session.add(self)
+        db.session.flush()
 
     def delete(self):
         db.session.delete(self)

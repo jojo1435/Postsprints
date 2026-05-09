@@ -1,81 +1,143 @@
-<div class="absolute lg:static -translate-x-full lg:translate-x-0 flex flex-col gap-y-6 px-4 py-6 w-full md:w-40 min-w-[16rem] sm:min-w-64 h-screen max-h-screen bg-white border-r border-base-300 transition-transform duration-300 z-20" id="mobile-menu">
-    <div class="flex justify-between items-center">
-        <svg class="block md:hidden h-6 w-6 hover:text-primary cursor-pointer transition-colors" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-dashboard="button">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-    </div>
-    <nav class="h-full">
-        <ul class="flex flex-col gap-y-1 h-full text-md sm:text-sm font-bold">
-            <li>
-                <img src="{{ url_for('static', filename='/images/logo.png') }}" alt="Postsprint Logo" class="mb-6 w-8">
+<aside class="fixed lg:sticky top-0 -translate-x-full lg:translate-x-0 flex flex-col gap-y-6 px-4 py-6 w-full md:w-40 min-w-[16rem] md:min-w-64 h-screen max-h-screen bg-(--color-base-50) border-r border-base-300 transition-transform duration-300 z-50" id="mobile-menu">
+    <nav class="h-full" aria-label="Main navigation">
+        <ul class="flex flex-col gap-y-2 h-full text-md sm:text-sm font-bold">
+            <li class="flex justify-between items-center mb-6">
+                <img src="{{ asset_url('images/logo.png') }}" alt="Postsprint Logo" class="w-6 md:w-8">
+                <button
+                    aria-label="Close menu"
+                    class="block lg:hidden h-6 w-6 hover:text-primary cursor-pointer transition-colors"
+                    data-dashboard="button">
+                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </li>
             {% if current_workspace %}
-                <li class="flex items-center mb-4 bg-(--color-primary-muted) border border-base-300 rounded-md">
+                <li class="flex items-center mb-4 bg-(--color-base-50) border border-base-300 rounded-md">
                     <div class="flex items-center w-full ">
-                        <div class="dropdown avatar avatar-placeholder items-center p-2 w-full transition-colors hover:bg-base-100 cursor-pointer" tabindex="0" role="button">
-                            <div class="bg-{{ current_workspace.color }}-500 text-white w-6 h-6 rounded-full">
-                                {% if current_workspace.icon == "letter" %}
-                                    <span class="text-xl sm:text-2xl font-bold">{{ workspace.name[0] | upper }}</span>
-                                {% elif current_workspace.icon == "business" %}
-                                    <svg stroke="currentColor" fill="none" stroke-width="0.3" viewBox="0 0 15 15" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M3.68946 2.75C3.89633 2.74979 4.08178 2.87732 4.15626 3.07031L7.36622 11.3896L7.39356 11.4873C7.43224 11.7167 7.30549 11.9491 7.08009 12.0361C6.8546 12.1231 6.60494 12.0358 6.4795 11.8398L6.4336 11.75L5.38282 9.02539H2.01075L0.966806 11.749L0.920908 11.8398C0.795759 12.0354 0.546617 12.1233 0.321299 12.0371C0.0635625 11.9382 -0.0655997 11.6484 0.0332127 11.3906L3.22364 3.07129L3.25587 3.00195C3.34371 2.84806 3.50847 2.75031 3.68946 2.75ZM10.8984 5.20703C11.792 5.20703 12.6044 5.60223 13.1533 6.22461V5.71973C13.1535 5.47158 13.3554 5.26994 13.6035 5.26953C13.852 5.26953 14.0536 5.47132 14.0537 5.71973V11.5293C14.0537 11.7778 13.8521 11.9795 13.6035 11.9795C13.3553 11.9791 13.1533 11.7776 13.1533 11.5293V11.0195C12.5733 11.6675 11.7213 12.0127 10.8984 12.0127C9.3579 12.0124 8.0088 10.6332 8.0088 8.60938C8.00895 6.68571 9.25803 5.20734 10.8984 5.20703ZM11.0859 6.05762C10.1083 6.05812 9.03524 6.96621 9.03517 8.60938C9.03517 10.1527 10.0084 11.1606 11.0859 11.1611C11.9702 11.1611 12.7714 10.4926 13.1533 9.79492V7.30566C12.7635 6.58343 11.9416 6.05762 11.0859 6.05762ZM2.33692 8.17578H5.0547L3.69142 4.64258L2.33692 8.17578Z" fill="currentColor"></path>
-                                    </svg>
-                                {% elif current_workspace.icon == "business" %}
-                                    <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M20 6h-3V4c0-1.103-.897-2-2-2H9c-1.103 0-2 .897-2 2v2H4c-1.103 0-2 .897-2 2v11c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2zm-5-2v2H9V4h6zM8 8h12v3H4V8h4zM4 19v-6h6v2h4v-2h6l.001 6H4z"></path>
-                                    </svg>
-                                {% elif current_workspace.icon == "team" %}
-                                    <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M18 21a8 8 0 0 0-16 0"></path>
-                                        <circle cx="10" cy="8" r="5"></circle>
-                                        <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path>
-                                    </svg>
-                                {% elif current_workspace.icon == "marketing" %}
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="4" viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M228.54,86.66l-176.06-54A16,16,0,0,0,32,48V192a16,16,0,0,0,16,16,16,16,0,0,0,4.52-.65L136,181.73V192a16,16,0,0,0,16,16h32a16,16,0,0,0,16-16v-29.9l28.54-8.75A16.09,16.09,0,0,0,240,138V102A16.09,16.09,0,0,0,228.54,86.66ZM136,165,48,192V48l88,27Zm48,27H152V176.82L184,167Zm40-54-.11,0L152,160.08V79.92l71.89,22,.11,0v36Z"></path>
-                                    </svg>
-                                {% elif current_workspace.icon == "analytics" %}
-                                    <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M12 16v5"></path>
-                                        <path d="M16 14v7"></path>
-                                        <path d="M20 10v11"></path>
-                                        <path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"></path>
-                                        <path d="M4 18v3"></path>
-                                        <path d="M8 14v7"></path>
-                                    </svg>
-                                {% elif current_workspace.icon == "store" %}
-                                    <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill="none" d="M0 0h24v24H0z"></path><path d="m21.9 8.89-1.05-4.37c-.22-.9-1-1.52-1.91-1.52H5.05c-.9 0-1.69.63-1.9 1.52L2.1 8.89c-.24 1.02-.02 2.06.62 2.88.08.11.19.19.28.29V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6.94c.09-.09.2-.18.28-.28.64-.82.87-1.87.62-2.89zm-2.99-3.9 1.05 4.37c.1.42.01.84-.25 1.17-.14.18-.44.47-.94.47-.61 0-1.14-.49-1.21-1.14L16.98 5l1.93-.01zM13 5h1.96l.54 4.52c.05.39-.07.78-.33 1.07-.22.26-.54.41-.95.41-.67 0-1.22-.59-1.22-1.31V5zM8.49 9.52 9.04 5H11v4.69c0 .72-.55 1.31-1.29 1.31-.34 0-.65-.15-.89-.41a1.42 1.42 0 0 1-.33-1.07zm-4.45-.16L5.05 5h1.97l-.58 4.86c-.08.65-.6 1.14-1.21 1.14-.49 0-.8-.29-.93-.47-.27-.32-.36-.75-.26-1.17zM5 19v-6.03c.08.01.15.03.23.03.87 0 1.66-.36 2.24-.95.6.6 1.4.95 2.31.95.87 0 1.65-.36 2.23-.93.59.57 1.39.93 2.29.93.84 0 1.64-.35 2.24-.95.58.59 1.37.95 2.24.95.08 0 .15-.02.23-.03V19H5z"></path>
-                                    </svg>
-                                {% elif current_workspace.icon == "favourite" %}
-                                    <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"></path>
-                                    </svg>
-                                {% elif current_workspace.icon == "startup" %}
-                                    <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
-                                        <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
-                                        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
-                                    </svg>
-                                {% endif %}
+                        <div class="dropdown flex items-center p-2 w-full transition-colors hover:bg-base-100 cursor-pointer" tabindex="0" role="button">
+                            <div class="avatar avatar-placeholder">
+                                <div class="flex justify-center items-center bg-{{ current_workspace.color }}-500 text-white p-1 w-6 h-6 rounded-full">
+                                    {% if current_workspace.icon == "letter" %}
+                                        <span class="text-md font-bold h-auto md:h-4.5">{{ current_workspace.name[0] | upper }}</span>
+                                    {% elif current_workspace.icon == "business" %}
+                                        <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M20 6h-3V4c0-1.103-.897-2-2-2H9c-1.103 0-2 .897-2 2v2H4c-1.103 0-2 .897-2 2v11c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2zm-5-2v2H9V4h6zM8 8h12v3H4V8h4zM4 19v-6h6v2h4v-2h6l.001 6H4z"></path>
+                                        </svg>
+                                    {% elif current_workspace.icon == "team" %}
+                                        <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M18 21a8 8 0 0 0-16 0"></path>
+                                            <circle cx="10" cy="8" r="5"></circle>
+                                            <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path>
+                                        </svg>
+                                    {% elif current_workspace.icon == "marketing" %}
+                                        <svg stroke="currentColor" fill="currentColor" stroke-width="4" viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M228.54,86.66l-176.06-54A16,16,0,0,0,32,48V192a16,16,0,0,0,16,16,16,16,0,0,0,4.52-.65L136,181.73V192a16,16,0,0,0,16,16h32a16,16,0,0,0,16-16v-29.9l28.54-8.75A16.09,16.09,0,0,0,240,138V102A16.09,16.09,0,0,0,228.54,86.66ZM136,165,48,192V48l88,27Zm48,27H152V176.82L184,167Zm40-54-.11,0L152,160.08V79.92l71.89,22,.11,0v36Z"></path>
+                                        </svg>
+                                    {% elif current_workspace.icon == "analytics" %}
+                                        <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 16v5"></path>
+                                            <path d="M16 14v7"></path>
+                                            <path d="M20 10v11"></path>
+                                            <path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"></path>
+                                            <path d="M4 18v3"></path>
+                                            <path d="M8 14v7"></path>
+                                        </svg>
+                                    {% elif current_workspace.icon == "store" %}
+                                        <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="none" d="M0 0h24v24H0z"></path><path d="m21.9 8.89-1.05-4.37c-.22-.9-1-1.52-1.91-1.52H5.05c-.9 0-1.69.63-1.9 1.52L2.1 8.89c-.24 1.02-.02 2.06.62 2.88.08.11.19.19.28.29V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6.94c.09-.09.2-.18.28-.28.64-.82.87-1.87.62-2.89zm-2.99-3.9 1.05 4.37c.1.42.01.84-.25 1.17-.14.18-.44.47-.94.47-.61 0-1.14-.49-1.21-1.14L16.98 5l1.93-.01zM13 5h1.96l.54 4.52c.05.39-.07.78-.33 1.07-.22.26-.54.41-.95.41-.67 0-1.22-.59-1.22-1.31V5zM8.49 9.52 9.04 5H11v4.69c0 .72-.55 1.31-1.29 1.31-.34 0-.65-.15-.89-.41a1.42 1.42 0 0 1-.33-1.07zm-4.45-.16L5.05 5h1.97l-.58 4.86c-.08.65-.6 1.14-1.21 1.14-.49 0-.8-.29-.93-.47-.27-.32-.36-.75-.26-1.17zM5 19v-6.03c.08.01.15.03.23.03.87 0 1.66-.36 2.24-.95.6.6 1.4.95 2.31.95.87 0 1.65-.36 2.23-.93.59.57 1.39.93 2.29.93.84 0 1.64-.35 2.24-.95.58.59 1.37.95 2.24.95.08 0 .15-.02.23-.03V19H5z"></path>
+                                        </svg>
+                                    {% elif current_workspace.icon == "favourite" %}
+                                        <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"></path>
+                                        </svg>
+                                    {% elif current_workspace.icon == "startup" %}
+                                        <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+                                            <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+                                            <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+                                        </svg>
+                                    {% endif %}
+                                </div>
                             </div>
-                            <span class="text-md sm:text-sm ml-2 max-w-27 max-h-5 overflow-hidden">{{ current_workspace.name }} Equipo</span>
+                            <span class="text-md sm:text-sm ml-2 max-w-27 max-h-5 overflow-hidden">{{ current_workspace.name }}</span>
                             <div class="ml-auto">
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M184.49,167.51a12,12,0,0,1,0,17l-48,48a12,12,0,0,1-17,0l-48-48a12,12,0,0,1,17-17L128,207l39.51-39.52A12,12,0,0,1,184.49,167.51Zm-96-79L128,49l39.51,39.52a12,12,0,0,0,17-17l-48-48a12,12,0,0,0-17,0l-48,48a12,12,0,0,0,17,17Z"></path>
                                 </svg>
                             </div>
-                            <div tabindex="-1" class="dropdown-content flex-col top-10 left-[-0.5px] mt-2 w-80 h-auto rounded-sm bg-white shadow-lg ring-1 ring-base-300 z-10">
+                            <div tabindex="0" class="dropdown-content flex-col top-10 left-[-0.5px] mt-2 w-80 h-auto rounded-sm bg-(--color-base-50) shadow-lg ring-1 ring-base-300 z-15">
                                 <div class="px-4 py-2 w-full border-y border-base-300">
                                     <p class="font-semibold">Your Workspaces</p>
                                 </div>
                                 <div class="flex flex-col mb-auto w-full">
-                                    {% for workspace in current_user.workspaces %}
-                                        <div class="flex items-center px-4 py-2 border-b border-base-300">
-                                            <p class="font-semibold">Your Workspaces</p>
-                                        </div>
+                                    {% for workspace in current_user.workspaces[:6] %}
+                                        <form action="{{ url_for('dashboard.workspace_switch', workspace_id=workspace.id) }}" method="post">
+                                            <input type="hidden" name="csrf_token" value="c83x1vbhWN4R5KuSpVngT1A8lobkXJL5WkEUdTxhegE=">
+                                            <button type="submit" class="w-full text-left flex items-center gap-x-2 px-4 py-2 border-b border-base-300 cursor-pointer transition-color hover:bg-base-100">
+                                                <div class="avatar avatar-placeholder">
+                                                    <div class="bg-{{ workspace.color }}-500 text-white p-1 w-6 h-6 rounded-full">
+                                                        {% if workspace.icon == "letter" %}
+                                                            <span class="text-md font-bold h-auto md:h-4.5">{{ workspace.name[0] | upper }}</span>
+                                                        {% elif workspace.icon == "business" %}
+                                                            <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M20 6h-3V4c0-1.103-.897-2-2-2H9c-1.103 0-2 .897-2 2v2H4c-1.103 0-2 .897-2 2v11c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V8c0-1.103-.897-2-2-2zm-5-2v2H9V4h6zM8 8h12v3H4V8h4zM4 19v-6h6v2h4v-2h6l.001 6H4z"></path>
+                                                            </svg>
+                                                        {% elif workspace.icon == "team" %}
+                                                            <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M18 21a8 8 0 0 0-16 0"></path>
+                                                                <circle cx="10" cy="8" r="5"></circle>
+                                                                <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path>
+                                                            </svg>
+                                                        {% elif workspace.icon == "marketing" %}
+                                                            <svg stroke="currentColor" fill="currentColor" stroke-width="4" viewBox="0 0 256 256" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M228.54,86.66l-176.06-54A16,16,0,0,0,32,48V192a16,16,0,0,0,16,16,16,16,0,0,0,4.52-.65L136,181.73V192a16,16,0,0,0,16,16h32a16,16,0,0,0,16-16v-29.9l28.54-8.75A16.09,16.09,0,0,0,240,138V102A16.09,16.09,0,0,0,228.54,86.66ZM136,165,48,192V48l88,27Zm48,27H152V176.82L184,167Zm40-54-.11,0L152,160.08V79.92l71.89,22,.11,0v36Z"></path>
+                                                            </svg>
+                                                        {% elif workspace.icon == "analytics" %}
+                                                            <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M12 16v5"></path>
+                                                                <path d="M16 14v7"></path>
+                                                                <path d="M20 10v11"></path>
+                                                                <path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15"></path>
+                                                                <path d="M4 18v3"></path>
+                                                                <path d="M8 14v7"></path>
+                                                            </svg>
+                                                        {% elif workspace.icon == "store" %}
+                                                            <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                                <path fill="none" d="M0 0h24v24H0z"></path><path d="m21.9 8.89-1.05-4.37c-.22-.9-1-1.52-1.91-1.52H5.05c-.9 0-1.69.63-1.9 1.52L2.1 8.89c-.24 1.02-.02 2.06.62 2.88.08.11.19.19.28.29V19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6.94c.09-.09.2-.18.28-.28.64-.82.87-1.87.62-2.89zm-2.99-3.9 1.05 4.37c.1.42.01.84-.25 1.17-.14.18-.44.47-.94.47-.61 0-1.14-.49-1.21-1.14L16.98 5l1.93-.01zM13 5h1.96l.54 4.52c.05.39-.07.78-.33 1.07-.22.26-.54.41-.95.41-.67 0-1.22-.59-1.22-1.31V5zM8.49 9.52 9.04 5H11v4.69c0 .72-.55 1.31-1.29 1.31-.34 0-.65-.15-.89-.41a1.42 1.42 0 0 1-.33-1.07zm-4.45-.16L5.05 5h1.97l-.58 4.86c-.08.65-.6 1.14-1.21 1.14-.49 0-.8-.29-.93-.47-.27-.32-.36-.75-.26-1.17zM5 19v-6.03c.08.01.15.03.23.03.87 0 1.66-.36 2.24-.95.6.6 1.4.95 2.31.95.87 0 1.65-.36 2.23-.93.59.57 1.39.93 2.29.93.84 0 1.64-.35 2.24-.95.58.59 1.37.95 2.24.95.08 0 .15-.02.23-.03V19H5z"></path>
+                                                            </svg>
+                                                        {% elif workspace.icon == "favourite" %}
+                                                            <svg class="mx-auto" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M458.4 64.3C400.6 15.7 311.3 23 256 79.3 200.7 23 111.4 15.6 53.6 64.3-21.6 127.6-10.6 230.8 43 285.5l175.4 178.7c10 10.2 23.4 15.9 37.6 15.9 14.3 0 27.6-5.6 37.6-15.8L469 285.6c53.5-54.7 64.7-157.9-10.6-221.3zm-23.6 187.5L259.4 430.5c-2.4 2.4-4.4 2.4-6.8 0L77.2 251.8c-36.5-37.2-43.9-107.6 7.3-150.7 38.9-32.7 98.9-27.8 136.5 10.5l35 35.7 35-35.7c37.8-38.5 97.8-43.2 136.5-10.6 51.1 43.1 43.5 113.9 7.3 150.8z"></path>
+                                                            </svg>
+                                                        {% elif workspace.icon == "startup" %}
+                                                            <svg class="mx-auto" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+                                                                <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+                                                                <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+                                                            </svg>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <p class="font-bold">{{ workspace.name[:25] }}</p>
+                                                {% if workspace.id == current_workspace.id %}
+                                                    <div class="text-gray-700 ml-auto">
+                                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"></path>
+                                                        </svg>
+                                                    </div>
+                                                {% endif %}
+                                            </button>
+                                        </form>
                                     {% endfor %}
                                 </div>
+                                {% if current_user.workspaces | count > 6 %}
+                                    <a class="flex items-center px-4 py-2 gap-x-2 w-full hover:bg-base-100" href="{{ url_for('dashboard.workspace') }}">View all
+                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path>
+                                        </svg>
+                                    </a>
+                                {% endif %}
                             </div>
                         </div>
                         <a href="{{ url_for('dashboard.workspace') }}" class="ml-auto p-2 border-l border-base-300 transition-colors hover:bg-base-100">
@@ -91,10 +153,10 @@
                     <div class="flex items-center p-2 transition-colors hover:bg-base-100">
                         <div class="avatar avatar-placeholder items-center">
                             <div class="bg-neutral text-neutral-content w-6 h-6 rounded-full">
-                                <span class="text-xs">!</span>
+                                <p class="text-xs">!</p>
                             </div>
                         </div>
-                        <span class="text-md sm:text-sm ml-2">Create workspace</span>
+                        <p class="text-md sm:text-sm ml-2">Create workspace</p>
                     </div>
                     <a href="{{ url_for('dashboard.workspace_create') }}" class="ml-auto p-2 border-l border-base-300 hover:bg-base-200/50 transition-colors">
                         <svg class="w-5 h-5" stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
@@ -148,8 +210,8 @@
                 </a>
             </li>
             <hr class="text-base-300 my-2">
-            <li class="p-1 bg-base-100 border border-base-300 rounded-md">
-                <span class="p-2">Tools</span>
+            <li class="px-2 py-1 bg-base-100 border border-base-300 rounded-md" role="presentation">
+                <p aria-hidden="true">Tools</p>
             </li>
             <li class="p-1 rounded-sm active:bg-base-300/50 hover:bg-base-300/50 transition-colors cursor-pointer">
                 <a href="" class="flex items-center gap-x-2">
@@ -183,10 +245,10 @@
             <li class="mt-auto p-2 bg-(--color-primary-muted) border border-base-300 rounded-md font-bold">
                 {% set progress_value = current_user.get_posts_left() / current_user.plan.max_posts_per_month %}
                 {% set progress_value_rounded = (current_user.get_posts_used() * 100 / current_user.plan.max_posts_per_month) | round(0) | int %}
-                <span>{{ current_user.get_posts_left() }} Posts Left This Month</span>
-                <progress class="progress {% if progress_value <= 0.25 %}progress-error{% elif progress_value <= 0.5 %}progress-warning{% else %}progress-primary{% endif %} my-2 rounded-md" value="{{ current_user.get_posts_left() }}" max="{{ current_user.plan.max_posts_per_month }}"></progress>
-                <span class="font-semibold text-gray-600">{{ progress_value_rounded }}% of {{ current_user.plan.max_posts_per_month }} posts used</span>
+                <p>{{ current_user.get_posts_left() }} Posts Left This Month</p>
+                <progress aria-label="Posts used this month" class="progress {% if progress_value <= 0.25 %}progress-error{% elif progress_value <= 0.5 %}progress-warning{% else %}progress-primary{% endif %} my-2 rounded-md" value="{{ current_user.get_posts_left() }}" max="{{ current_user.plan.max_posts_per_month }}"></progress>
+                <p class="font-semibold text-neutral">{{ progress_value_rounded }}% of {{ current_user.plan.max_posts_per_month }} posts used</p>
             </li>
         </ul>
     </nav>
-</div>
+</aside>

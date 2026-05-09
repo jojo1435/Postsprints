@@ -6,21 +6,19 @@
 <div class="flex relative max-h-screen">
     {% include "components/dashboard/sidebar.html" %}
     <div class="flex flex-col w-full h-screen overflow-y-auto">
-        <div class="w-full h-full">
-            {% include "components/dashboard/header.html" %}
-            <div class="py-5 bg-(--color-primary-muted) border-b border-base-300">
-                <h1 class="text-3xl font-medium tracking-tight px-6 font-manrope">Dashboard</h1>
+        {% include "components/dashboard/header.html" %}
+        <section aria-labelledby="dashboard-title" class="py-5 bg-(--color-base-50) border-b border-base-300">
+            <h1 id="dashboard-title" class="text-3xl font-medium tracking-tight px-6 font-manrope">Dashboard</h1>
+        </section>
+        <main class="w-full h-[calc(100vh-142px)] bg-(--color-base-50)">
+            <div class="p-6 h-full">
+                <div class="flex justify-center items-center w-full h-full rounded-xl border border-dashed border-base-300"></div>
             </div>
-            <div class="w-full h-[calc(100vh-142px)] bg-(--color-primary-muted)">
-                <div class="p-6 h-full">
-                    <div class="flex justify-center items-center w-full h-full rounded-xl border border-dashed border-base-300"></div>
-                </div>
-            </div>
-        </div>
+        </main>
     </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/javascript" src="{{ url_for('static', filename='javascript/sidebar.js') }}"></script>
+    <script type="text/javascript" src="{{ asset_url('javascript/sidebar.js') }}"></script>
 {% endblock %}

@@ -12,6 +12,7 @@
     "dependencies": {
         "@tailwindcss/cli": "^4.1.18",
         "cally": "^0.9.2",
+        "tailwind-animations": "^1.0.1",
         "tailwindcss": "^4.1.18"
     },
     "devDependencies": {

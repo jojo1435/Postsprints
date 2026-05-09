@@ -2,43 +2,63 @@
 
 {% block title %}Sign Up{% endblock %}
 
-{% block links %}
-<link href="{{ url_for('static', filename='css/animations.css') }}" rel="stylesheet"/>
-{% endblock %}
-
 {% block content %}
 {% from "macros/fields.html" import render_username_field, render_email_field, render_password_field, render_boolean_field, render_submit_field %}
-<div class="flex px-4 md:px-6 py-4 h-screen">
-	<div class="h-full w-full">
-		<div>
-			<div class="flex justify-center md:justify-start">
-				<img src="{{ url_for('static', filename='/images/header_logo.png') }}" alt="postsprints logo">
-			</div>
-			<div class="flex flex-col justify-center items-center pr-0 xl:pr-6 h-[88vh]">
-				<div class="my-6 w-auto md:w-140">
-					<h1 class="text-5xl font-semibold mb-6 font-manrope">Sign Up</h1>
-					<span class="text-md text-gray-500 font-medium">Enter your name, email and password to create your account.</span>
+<div class="flex min-h-dvh bg-(--color-base-50)">
+	<div class="px-4 md:px-6 w-full">
+		<header class="flex justify-center md:justify-start pt-5">
+			<a href="{{ url_for('main.index') }}">
+				<picture>
+					<source class="w-55" srcset="{{ asset_url('images/header_logo.png') }}" media="(prefers-color-scheme: light)" alt="Postsprints logo"/>
+					<source class="w-55" srcset="{{ asset_url('images/header_logo_dark.png') }}" media="(prefers-color-scheme: dark)" alt="Postsprints logo"/>
+					<img class="w-55" src="{{ asset_url('images/header_logo.png') }}" alt="Postsprints logo">
+				</picture>
+			</a>
+		</header>
+		<main class="flex flex-col justify-end sm:justify-center items-center pr-0 xl:pr-6 py-6 min-h-[calc(100dvh-93px)]">
+			<section aria-labelledby="signup-title" class="my-4 sm:my-6 w-full max-w-md lg:max-w-140">
+				<h1 id="signup-title" class="text-4xl sm:text-5xl font-semibold mb-3 sm:mb-6 font-manrope">Create Your Account</h1>
+				<p class="text-md text-neutral font-medium">Join Postsprints and start managing your social media like a pro.</p>
+			</section>
+			<form method="post" novalidate class="text-start w-full max-w-md lg:max-w-140">
+				{{ signup_form.csrf_token() }}
+				{{ render_username_field(signup_form.name) }}
+				{{ render_email_field(signup_form.email) }}
+				{{ render_password_field(signup_form.password) }}
+				<div class="flex justify-between">
+					<p class="mb-6 text-neutral text-sm">Must be at least 8 characters.</p>
+					<div>
+						<progress class="progress progress-accent w-30 rounded-md" value="0" max="100"></progress>
+						<p class="text-neutral text-sm">Strength: —</p>
+					</div>
 				</div>
-				<form method="post" novalidate class="text-start w-full max-w-auto lg:max-w-140">
-					{{ signup_form.csrf_token() }}
-					{{ render_username_field(signup_form.name) }}
-					{{ render_email_field(signup_form.email) }}
-					{{ render_password_field(signup_form.password) }}
-					{{ render_password_field(signup_form.confirm_password, placeholder="Confirm Password") }}
-					<div class="flex justify-between py-4">
-						<div class="flex flex-row-reverse items-center gap-x-4">
-							{{ render_boolean_field(signup_form.remember) }}
-						</div>
+				{{ render_password_field(signup_form.confirm_password, placeholder="Confirm your password") }}
+				<div class="flex justify-between py-3 sm:py-4">
+					<div class="flex flex-row-reverse items-center gap-x-4">
+						{{ render_boolean_field(signup_form.remember) }}
 					</div>
-                	{{ render_submit_field(signup_form.submit) }}
-					<div class="mt-6 text-center text-md">
-						<p class="inline">Have an account?</p>
-						<a href="{{ url_for('auth.signin') }}" class="inline text-primary font-semibold">Sign in here</a>
+				</div>
+				<div class="flex justify-between pb-3 sm:pb-4">
+					<div class="flex items-center gap-x-4">
+						{{ signup_form.accept(class="checkbox checkbox-primary checkbox-sm") }}
+						<label for="accept" class="block text-sm font-semibold">I agree to the <a href="" class="text-primary">Terms of service</a> and <a href="" class="text-primary">Privacy Policy</a></label>
 					</div>
-				</form>
-			</div>
-		</div>
+				</div>
+				{% for error in signup_form.accept.errors %}
+					<span class="block text-sm text-error mb-2">{{ error }}</span>
+				{% endfor %}
+				{{ render_submit_field(signup_form.submit) }}
+				<div class="mt-4 sm:mt-6 text-center text-md">
+					Already have an account?
+					<a href="{{ url_for('auth.signin') }}" class="inline text-primary font-semibold">Sign in here</a>
+				</div>
+			</form>
+		</main>
 	</div>
-	<div class="hidden xl:block bga1 bg-sky-500 h-full w-full rounded-lg"></div>
+	<img class="hidden 2xl:block h-dvh" src="{{ asset_url('images/auth_side.png') }}" alt="" role="presentation">
 </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ asset_url('javascript/password.js') }}"></script>
 {% endblock %}

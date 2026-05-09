@@ -4,7 +4,7 @@ const colorRadios = document.querySelectorAll("input[name='color']");
 
 function getSelectedColor() {
     const selected = document.querySelector("input[name='color']:checked");
-    return selected ? selected.value : "gray";
+    return selected ? selected.value : "base";
 }
 
 function updateIconStyles() {
@@ -27,7 +27,7 @@ function updateIconStyles() {
                 "border-2"
             );
         } else {
-            icon.classList.add("border-gray-300");
+            icon.classList.add("border-base-300");
         }
     });
 }

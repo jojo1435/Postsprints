@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, request, url_for
+from flask import Blueprint, render_template, redirect, url_for, session, request
 from flask_login import login_required, login_user, logout_user, current_user
 
 from config import MAIL_SUPPORT_SENDER
@@ -81,6 +81,7 @@ def signup():
 @auth.route("/signout")
 @login_required
 def signout():
+    session.clear()
     logout_user()
     return redirect(url_for("main.index"))
 
