@@ -27,7 +27,7 @@
 	}
 
 	function findInput(wrapper) {
-		return wrapper.querySelector('input[type="password"], input[type="text"]');
+		return wrapper.querySelector('input[type="password"]');
 	}
 
 	const EYE_OPEN_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -73,7 +73,7 @@
 
 	function wireStrengthMeter(wrapper) {
 		const input = findInput(wrapper);
-		if (!input) return;
+		if (!input || !input.hasAttribute("data-strength")) return;
 
 		let sibling = wrapper.nextElementSibling;
 		let progress = null;

@@ -6,10 +6,10 @@
 {% from "macros/dashboard.html" import render_stat_card, render_icon %}
 <div class="flex relative max-h-screen">
     {% include "components/dashboard/sidebar.html" %}
-    <div class="flex flex-col w-full h-screen overflow-y-auto">
+    <div class="flex flex-col w-full h-screen overflow-y-auto bg-(--color-base-50)">
         <div class="w-full h-full">
             {% include "components/dashboard/header.html" %}
-            <div class="flex items-center pr-5 bg-(--color-base-50) border-b border-base-300">
+            <div class="flex items-center pr-5 border-b border-base-300">
                 <section aria-labelledby="dashboard-title" class="py-5">
                     <div class="flex flex-col px-6">
                         <h1 id="dashboard-title" class="text-3xl font-medium tracking-tight font-manrope">Your Workspaces</h1>
@@ -25,7 +25,7 @@
                     </a>
                 </div>
             </div>
-            <main class="w-full h-auto xl:h-[calc(100dvh-174px)] p-5 bg-(--color-base-50)">
+            <main class="w-full h-auto xl:h-[calc(100dvh-174px)] p-5">
                 <!-- section 1 pending -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-2">
                     <div class="flex items-center p-4 border border-base-300 gap-6 min-w-72 rounded-lg transition-transform hover:scale-101">
@@ -187,7 +187,6 @@
                         </div>
                     {% else %}
                         <div class="flex flex-col justify-center items-center col-span-1 2xl:col-span-3 p-4 border border-base-300 gap-4 min-w-72 rounded-lg">
-                            <img class="w-60" src="{{ url_for('static', filename='/images/workspace_missing.png') }}" alt="Create a workspace">
                             <h3 class="text-xl font-bold">You don't have any workspaces yet</h3>
                             <p class="text-lg text-neutral text-center max-w-120">Create your first workspace to start organizing your social media accounts, posts and grow your online presence.</p>
                             <a class="btn btn-secondary shadow-none font-normal text-white" href="{{ url_for('dashboard.workspace_create') }}">

@@ -7,16 +7,16 @@
 {% from "macros/dashboard.html" import render_icon %}
 <div class="flex relative max-h-screen">
     {% include "components/dashboard/sidebar.html" %}
-    <div class="flex flex-col w-full h-screen overflow-y-auto">
+    <div class="flex flex-col w-full h-screen overflow-y-auto bg-(--color-base-50)">
         <div class="w-full h-full">
             {% include "components/dashboard/header.html" %}
-            <section aria-labelledby="dashboard-title" class="static md:sticky top-16.25 py-5 bg-(--color-base-50) border-b border-base-300 z-15">
+            <section aria-labelledby="dashboard-title" class="static md:sticky top-16.25 py-5 border-b border-base-300 z-15">
                 <div class="flex flex-col px-6">
                     <h1 id="dashboard-title" class="text-3xl font-medium tracking-tight font-manrope">Workspace Settings</h1>
                     <p class="mt-2 text-neutral">Update your workspace details and preferences.</p>
                 </div>
             </section>
-            <nav class="px-5 bg-(--color-base-50) border-b border-base-300">
+            <nav class="px-5 border-b border-base-300">
                 <ul class="flex flex-col md:flex-row gap-x-4">
                     <li class="border-b-0 md:border-b-2 border-primary text-primary cursor-pointer">
                         <a class="flex gap-x-2 px-0 md:px-3 py-4 items-center" href="">

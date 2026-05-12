@@ -24,7 +24,7 @@
 				{{ signup_form.csrf_token() }}
 				{{ render_username_field(signup_form.name) }}
 				{{ render_email_field(signup_form.email) }}
-				{{ render_password_field(signup_form.password) }}
+				{{ render_password_field(signup_form.password, show_strength=True) }}
 				<div class="flex justify-between">
 					<p class="mb-6 text-neutral text-sm">Must be at least 8 characters.</p>
 					<div>

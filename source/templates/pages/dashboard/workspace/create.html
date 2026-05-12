@@ -6,16 +6,16 @@
 {% from "macros/fields.html" import render_text_field, render_textarea_field, render_submit2_field %}
 <div class="flex relative max-h-screen">
     {% include "components/dashboard/sidebar.html" %}
-    <div class="flex flex-col w-full h-screen overflow-y-auto">
+    <div class="flex flex-col w-full h-screen overflow-y-auto bg-(--color-base-50)">
         <div class="w-full h-full">
             {% include "components/dashboard/header.html" %}
-            <section aria-labelledby="dashboard-title" class="static md:sticky top-16.25 py-5 bg-(--color-base-50) border-b border-base-300 z-15">
+            <section aria-labelledby="dashboard-title" class="static md:sticky top-16.25 py-5 border-b border-base-300 z-15">
                 <div class="flex flex-col px-6">
                     <h1 id="dashboard-title" class="text-3xl font-medium tracking-tight font-manrope">Create Workspace</h1>
                     <p class="mt-2 text-neutral">Set up a new workspace to organize your accounts and content.</p>
                 </div>
             </section>
-            <main class="w-full h-auto 2xl:h-[calc(100vh-198px)] p-5 bg-(--color-base-50)">
+            <main class="w-full h-auto 2xl:h-[calc(100vh-198px)] p-5">
                 <div class="grid grid-cols-1 2xl:grid-cols-3 gap-2">
                     <div class="col-span-1 2xl:col-span-2 h-auto 2xl:h-[calc(100vh-238px)] overflow-auto">
                         {% if not user_can_create %}

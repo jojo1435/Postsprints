@@ -137,7 +137,7 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro render_password_field(field, validate=False, placeholder="Password") %}
+{% macro render_password_field(field, validate=False, placeholder="Password", show_strength=False) %}
     {% set label_class = "block text-sm font-semibold mb-2" %}
     {{ field.label(class=label_class) }}
 
@@ -159,6 +159,10 @@
         </svg>
 
         {% set attrs = {"placeholder": placeholder} %}
+
+        {% if show_strength %}
+            {% set _ = attrs.update({"data-strength": ""}) %}
+        {% endif %}
 
         {% if validate %}
             {% set _ = attrs.update({
